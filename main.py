@@ -23,7 +23,7 @@ async def echo(ctx, *, arg):
 @bot.command(pass_context=True)
 @commands.has_role("test")
 async def check(ctx, user: discord.Member):
-    role = discord.utils.find(lambda r: r.name == 'название_роли', ctx.message.server.roles)
+    role = discord.utils.find(lambda r: r.name == 'test', ctx.message.server.roles)
     if role in user.roles:
         await ctx.send("у вас есть роль")
     else:
