@@ -15,4 +15,9 @@ async def on_ready():
 async def ping(ctx):
     await ctx.send(f"Pong!🏓 Latency: {str(round(client.latency, 2))}")
 
+@client.command()
+async def echo(ctx, *, arg):
+    await ctx.send(arg)
+
+
 client.run(token)
