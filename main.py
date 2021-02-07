@@ -20,14 +20,18 @@ async def ping(ctx):
 async def echo(ctx, *, arg):
     await ctx.send(arg)
 
-"""Mass bans members with an optional delete_days parameter"""
 @bot.command()
 @commands.has_permissions(ban_members=True)
 async def ban(ctx, members: commands.Greedy[discord.Member],
                    delete_days: typing.Optional[int] = 0, *,
                    reason: str):
+    """Mass bans members with an optional delete_days parameter"""
     for member in members:
         await member.ban(delete_message_days=delete_days, reason=reason)
 @commands.ban.brief("Mass bans members with an optional delete_days parameter")
+
+
+
+#@commands.ban.brief("Mass bans members with an optional delete_days parameter")
 
 bot.run(token)
