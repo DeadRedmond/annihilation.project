@@ -4,19 +4,19 @@ import discord
 import typing
 from discord.ext import commands
 
-client = commands.Bot(command_prefix="!")
+bot = commands.Bot(command_prefix="!")
 token = os.getenv("BOT_TOKEN")
 
-@client.event
+@bot.event
 async def on_ready():
-    await client.change_presence(status = discord.Status.idle, activity = discord.Game("Annihilation!"))
+    await bot.change_presence(status = discord.Status.idle, activity = discord.Game("Annihilation!"))
     print("Online!")
 
-@client.command()
+@bot.command()
 async def ping(ctx):
-    await ctx.send(f"Pong!🏓 Latency: {str(round(client.latency, 2))}")
+    await ctx.send(f"Pong!🏓 Latency: {str(round(bot.latency, 2))}")
 
-@client.command()
+@bot.command()
 async def echo(ctx, *, arg):
     await ctx.send(arg)
 
@@ -25,9 +25,9 @@ async def echo(ctx, *, arg):
 async def check(ctx, user: discord.Member):
     role = discord.utils.find(lambda r: r.name == 'название_роли', ctx.message.server.roles)
     if role in user.roles:
-        await bot.say("у вас есть роль")
+        await ctx.send("у вас есть роль")
     else:
-        await bot.say("у вас нету роли")
+        await ctx.send("у вас нету роли")
 
 """Mass bans members with an optional delete_days parameter"""
 """@bot.command()
@@ -39,4 +39,4 @@ async def ban(ctx, members: commands.Greedy[discord.Member],
         await member.ban(delete_message_days=delete_days, reason=reason)
 """
 
-client.run(token)
+bot.run(token)
