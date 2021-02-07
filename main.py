@@ -16,7 +16,7 @@ async def on_ready():
 async def ping(ctx):
     await ctx.send(f"Pong!🏓 Latency: {str(round(bot.latency, 2))}")
 
-@bot.command()
+@bot.command(brief="Repeat the message after you")
 async def echo(ctx, *, arg):
     await ctx.send(arg)
 
