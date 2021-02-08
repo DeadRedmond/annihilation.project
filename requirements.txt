@@ -1,3 +1,4 @@
 discord.py
 typing
 requests
+bs4
