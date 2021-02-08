@@ -9,12 +9,10 @@ from discord.ext import commands
 bot = commands.Bot(command_prefix="!")
 token = os.getenv("BOT_TOKEN")
 
-'''
 #enable cogs
 for filename in os.listdir("./cogs"):
     if filename.endswith(".py"):
         client.load_extension(f"cogs.{filename[:-3]}")
-'''
 
 @bot.event
 async def on_ready():
