@@ -45,8 +45,7 @@ async def i(ctx, *, searchquery: str):
     Should be a group in the future
     Googles searchquery, or images if you specified that
     '''
-    searchquerylower = searchquery.lower()
-    await ctx.send('<https://www.google.com/search?tbm=isch&q={}>'.format(urllib.parse.quote_plus(searchquery[7:])))
+    await ctx.send('<https://www.google.com/search?tbm=isch&q={}>'.format(urllib.parse.quote_plus(searchquery)))
 
 
 #run
