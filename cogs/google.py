@@ -8,71 +8,77 @@ from bs4 import BeautifulSoup
 
 '''Module for google web and image search.'''
 
+google_api_key = os.getenv("SEARCH_API")
+custom_search_engine = os.getenv("SEARCH_ENGINE")
+
+'''
 def embed_perms(message):
     try:
         check = message.author.permissions_in(message.channel).embed_links
     except:
         check = True
-
     return check
+'''
 
-
-
-google_api_key = os.getenv("SEARCH_API")
-custom_search_engine = os.getenv("SEARCH_ENGINE")
-
-
-async def get_google_entries(query, session=None):
-    if not session:
-        session = aiohttp.ClientSession()
-    url = 'https://www.google.com/search?q={}'.format(urllib.parse.quote(query))
-    params = {
-        'safe': 'off',
-        'lr': 'lang_en',
-        'h1': 'en'
-    }
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; Win64; x64)'
-    }
-    entries = []
-    async with session.get(url, params=params, headers=headers) as resp:
-        if resp.status != 200:
-            #config = load_optional_config()
-            async with session.get("https://www.googleapis.com/customsearch/v1?q=" + urllib.parse.quote_plus(query) + "&start=" + '1' + "&key=" + google_api_key + "&cx=" + custom_search_engine) as resp:
-                result = json.loads(await resp.text())
-            return None, result['items'][0]['link']
-
-        try:
-            root = etree.fromstring(await resp.text(), etree.HTMLParser())
-            search_nodes = root.findall(".//div[@class='g']")
-            for node in search_nodes:
-                url_node = node.find('.//h3/a')
-                if url_node is None:
-                    continue
-                url = url_node.attrib['href']
-                if not url.startswith('/url?'):
-                    continue
-                url = urllib.parse.parse_qs(url[5:])['q'][0]
-                entries.append(url)
-        except NameError:
-            root = BeautifulSoup(await resp.text(), 'html.parser')
-            for result in root.find_all("div", class_='g'):
-                url_node = result.find('h3')
-                if url_node:
-                    for link in url_node.find_all('a', href=True):
-                        url = link['href']
-                        if not url.startswith('/url?'):
-                            continue
-                        url = urllib.parse.parse_qs(url[5:])['q'][0]
-                        entries.append(url)
-    return entries, root
 
 
 # Used Rapptz's implementation of google cards.
-class Google:
+class Google(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
+
+    def embed_perms(self, message):
+        try:
+            check = message.author.permissions_in(message.channel).embed_links
+        except:
+            check = True
+        return check
+
+    async def get_google_entries(self, query, session=None):
+        if not session:
+            session = aiohttp.ClientSession()
+        url = 'https://www.google.com/search?q={}'.format(urllib.parse.quote(query))
+        params = {
+            'safe': 'off',
+            'lr': 'lang_en',
+            'h1': 'en'
+        }
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; Win64; x64)'
+        }
+        entries = []
+        async with session.get(url, params=params, headers=headers) as resp:
+            if resp.status != 200:
+                #config = load_optional_config()
+                async with session.get("https://www.googleapis.com/customsearch/v1?q=" + urllib.parse.quote_plus(query) + "&start=" + '1' + "&key=" + google_api_key + "&cx=" + custom_search_engine) as resp:
+                    result = json.loads(await resp.text())
+                return None, result['items'][0]['link']
+
+            try:
+                root = etree.fromstring(await resp.text(), etree.HTMLParser())
+                search_nodes = root.findall(".//div[@class='g']")
+                for node in search_nodes:
+                    url_node = node.find('.//h3/a')
+                    if url_node is None:
+                        continue
+                    url = url_node.attrib['href']
+                    if not url.startswith('/url?'):
+                        continue
+                    url = urllib.parse.parse_qs(url[5:])['q'][0]
+                    entries.append(url)
+            except NameError:
+                root = BeautifulSoup(await resp.text(), 'html.parser')
+                for result in root.find_all("div", class_='g'):
+                    url_node = result.find('h3')
+                    if url_node:
+                        for link in url_node.find_all('a', href=True):
+                            url = link['href']
+                            if not url.startswith('/url?'):
+                                continue
+                            url = urllib.parse.parse_qs(url[5:])['q'][0]
+                            entries.append(url)
+        return entries, root
 
     def parse_google_card(self, node):
         if node is None or type(node) is int:
@@ -208,14 +214,14 @@ class Google:
     @commands.command(pass_context=True, aliases = ['google', 'гугл'])
     async def g(self, ctx, *, query):
         """Google web search. Ex: [p]g what is discordapp?"""
-        if not embed_perms(ctx.message):
+        if not self.embed_perms(ctx.message):
             #config = load_optional_config()
             async with self.bot.session.get("https://www.googleapis.com/customsearch/v1?q=" + urllib.parse.quote_plus(query) + "&start=1" + "&key=" + google_api_key + "&cx=" + custom_search_engine) as resp:
                 result = json.loads(await resp.text())
             return await ctx.send(result['items'][0]['link'])
 
         try:
-            entries, root = await get_google_entries(query, session=self.bot.session)
+            entries, root = await self.get_google_entries(query, session=self.bot.session)
             card_node = root.find(".//div[@id='topstuff']")
             card = self.parse_google_card(card_node)
         except RuntimeError as e:
@@ -260,7 +266,7 @@ class Google:
                 if len(result['items']) < 1:
                     return await ctx.send(self.bot.bot_prefix + 'There were no results to your search. Use more common search query or make sure you have image search enabled for your custom search engine.')
                 em = discord.Embed()
-                if embed_perms(ctx.message):
+                if self.embed_perms(ctx.message):
                     em.set_image(url=result['items'][item]['link'])
                     #show_search = get_config_value("optional_config", "show_search_term")
                     em.set_footer(text="Search term: \"" + query + "\"")
