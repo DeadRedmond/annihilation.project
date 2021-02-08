@@ -6,6 +6,8 @@ import aiohttp
 import urllib.parse
 from bs4 import BeautifulSoup
 
+'''Module for google web and image search.'''
+
 def embed_perms(message):
     try:
         check = message.author.permissions_in(message.channel).embed_links
@@ -14,7 +16,7 @@ def embed_perms(message):
 
     return check
 
-'''Module for google web and image search.'''
+
 
 google_api_key = os.getenv("SEARCH_API")
 custom_search_engine = os.getenv("SEARCH_ENGINE")
