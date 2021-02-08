@@ -9,16 +9,21 @@ from discord.ext import commands
 bot = commands.Bot(command_prefix="!")
 token = os.getenv("BOT_TOKEN")
 
+
 #enable cogs
 for filename in os.listdir("./cogs"):
     if filename.endswith(".py"):
-        client.load_extension(f"cogs.{filename[:-3]}")
+        bot.load_extension(f"cogs.{filename[:-3]}")
 
+
+#events
 @bot.event
 async def on_ready():
     await bot.change_presence(status = discord.Status.online, activity = discord.Game("Annihilation!"))
     print("Online!")
 
+
+#commands
 @bot.command()
 async def ping(ctx):
     await ctx.send("🏓 Pong: **{}ms**".format(round(bot.latency * 1000, 2)))
@@ -37,5 +42,5 @@ async def ban(ctx, members: commands.Greedy[discord.Member],
         await member.ban(delete_message_days=delete_days, reason=reason)
 
 
-#run
+#bot run
 bot.run(token)
