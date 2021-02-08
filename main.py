@@ -39,14 +39,5 @@ async def ban(ctx, members: commands.Greedy[discord.Member],
         await member.ban(delete_message_days=delete_days, reason=reason)
 
 
-@bot.command(brief='Searches the images', aliases=['image'])
-async def i(ctx, *, searchquery: str):
-    '''
-    Should be a group in the future
-    Googles searchquery, or images if you specified that
-    '''
-    await ctx.send('<https://www.google.com/search?tbm=isch&q={}>'.format(urllib.parse.quote_plus(searchquery)))
-
-
 #run
 bot.run(token)
