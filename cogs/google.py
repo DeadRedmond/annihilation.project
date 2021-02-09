@@ -33,3 +33,8 @@ class Google(commands.Cog):
                 i += 1
                 link = linkElements[i].get("href")
             await ctx.send(":desktop: http://google.com"+link)
+
+
+#setup function
+def setup(bot):
+    bot.add_cog(Google(bot))
