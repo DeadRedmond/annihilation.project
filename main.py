@@ -9,11 +9,13 @@ from discord.ext import commands
 bot = commands.Bot(command_prefix="!")
 token = os.getenv("BOT_TOKEN")
 
-
 #enable cogs
-for filename in os.listdir("./cogs"):
-    if filename.endswith(".py"):
-        bot.load_extension(f"cogs.{filename[:-3]}")
+for extension in os.listdir("cogs"):
+    if extension.endswith(".py"):
+        try:
+            bot.load_extension("cogs." + extension[:-3])
+        except Exception as e:
+            print('Failed to load extension {}\n{}: {}'.format(extension, type(e).__name__, e))
 
 
 #events
