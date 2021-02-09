@@ -32,6 +32,7 @@ async def ping(ctx):
 
 @bot.command(brief="Repeat the message after you")
 async def echo(ctx, *, arg):
+    await ctx.message.delete()
     await ctx.send(arg)
 
 @bot.command(brief="Mass bans members with an optional 'delete_days' parameter")
