@@ -3,6 +3,7 @@ import os
 import requests
 import urllib.parse
 import discord
+import json
 from discord.ext import commands
 from bs4 import BeautifulSoup
 
@@ -19,7 +20,13 @@ class Google(commands.Cog):
     @commands.command(aliases = ['google', 'search', 'гугл'])
     async def g(self, ctx, *, query):
         """Google web search"""
-        searchInput = "https://google.com/search?q="+urllib.parse.quote(query)
+        #input = "https://www.googleapis.com/customsearch/v1?q=" + urllib.parse.quote_plus(query) + "&start=1" + "&key=" + google_api_key + "&cx=" + custom_search_engine
+        async with self.bot.session.get("https://www.googleapis.com/customsearch/v1?q=" + urllib.parse.quote_plus(query) + "&start=1" + "&key=" + google_api_key + "&cx=" + custom_search_engine) as resp:
+            result = json.loads(await resp.text())
+            return await ctx.send(result['items'][0]['link'])
+        
+        
+        '''searchInput = "https://google.com/search?q="+urllib.parse.quote(query)
         res = requests.get(searchInput)
         res.raise_for_status()
         soup = BeautifulSoup(res.text, "html.parser")
@@ -32,7 +39,7 @@ class Google(commands.Cog):
             while link[0:4] != "/url" or link[14:20] == "google":
                 i += 1
                 link = linkElements[i].get("href")
-            await ctx.send(":desktop: http://google.com"+link)
+            await ctx.send(":desktop: http://google.com"+link)'''
 
 
 #setup function
