@@ -1,4 +1,4 @@
 /.vscode
 /cogs/utils
-**.*.old
-**.*.old.py
+**/*.old
+**/*.old.py

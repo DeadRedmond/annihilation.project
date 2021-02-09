@@ -21,9 +21,9 @@ class Google(commands.Cog):
     async def g(self, ctx, *, query):
         """Google web search"""
         #input = "https://www.googleapis.com/customsearch/v1?q=" + urllib.parse.quote_plus(query) + "&start=1" + "&key=" + google_api_key + "&cx=" + custom_search_engine
-        async with self.bot.session.get("https://www.googleapis.com/customsearch/v1?q=" + urllib.parse.quote_plus(query) + "&start=1" + "&key=" + google_api_key + "&cx=" + custom_search_engine) as resp:
-            result = json.loads(await resp.text())
-            return await ctx.send(result['items'][0]['link'])
+        result = requests.get("https://www.googleapis.com/customsearch/v1?q=" + urllib.parse.quote_plus(query) + "&start=1" + "&key=" + google_api_key + "&cx=" + custom_search_engine) as resp:
+        result = json.loads(await resp.text())
+        ctx.send(result['items'][0]['link'])
         
         
         '''searchInput = "https://google.com/search?q="+urllib.parse.quote(query)
