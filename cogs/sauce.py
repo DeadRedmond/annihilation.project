@@ -35,7 +35,7 @@ class Search(commands.Cog):
         else:
             #await self.bot.type()
             if file:
-                url = file[0]['proxy_url']
+                url = file[0].url
                 similarity = link
             else:
                 url = link
@@ -67,7 +67,7 @@ class Search(commands.Cog):
         else:
             #await self.bot.type()
             if file:
-                url = file[0]['proxy_url']
+                url = file[0].url
             else:
                 url = link
             async with self.tineye_session.get('https://tineye.com/search/?url={}'.format(url)) as response:
