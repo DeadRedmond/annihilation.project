@@ -33,7 +33,7 @@ class Search(commands.Cog):
         if link is None and not file:
             await ctx.send('Message didn\'t contain Image')
         else:
-            await self.bot.type()
+            #await self.bot.type()
             if file:
                 url = file[0]['proxy_url']
                 similarity = link
@@ -65,7 +65,7 @@ class Search(commands.Cog):
         if link is None and not file:
             await ctx.send('Message didn\'t contain Image')
         else:
-            await self.bot.type()
+            #await self.bot.type()
             if file:
                 url = file[0]['proxy_url']
             else:
