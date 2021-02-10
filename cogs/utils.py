@@ -55,6 +55,14 @@ class Utils(commands.Cog):
             ":8ball: Очень сомнительно."]
         await ctx.send(messages[random.randint(0, len(messages) - 1)])
 
+    @commands.command(aliases=['монетка'])
+    async def coin(self, ctx):
+        '''Подбросить монетку'''
+        if random.randint(0, 1) == 1:
+            await ctx.send(':coin: Орёл!')
+        else:
+            await ctx.send(':coin: Решка!')
+
 #setup function
 def setup(bot):
     bot.add_cog(Utils(bot))
