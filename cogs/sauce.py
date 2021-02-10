@@ -32,7 +32,6 @@ class Search(commands.Cog):
         if link is None and not file:
             return await ctx.reply('А где картинка то?', mention_author=True)
 		#await self.bot.type()
-        await ctx.type()
         if file:
             url = file[0].url
             similarity = link
