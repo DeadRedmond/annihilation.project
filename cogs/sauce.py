@@ -22,37 +22,38 @@ class Search(commands.Cog):
         return tag.replace(' ', ', ').replace('_', ' ').title()
 
     
-    @commands.command(pass_context=True)
+    @commands.command(pass_context=True, aliases=['соус'])
     async def sauce(self, ctx, link=None, similarity=80):
         """
-        reverse image search via saucenao
-       usage:   .sauce <image-link> <similarity (in percent)> or
-                .sauce on image upload comment <similarity (in percent)>
+        Ищем соус на Saucenao
+        (картинку можно просто прилепить к сообщению)
         """
         file = ctx.message.attachments
         if link is None and not file:
-            await ctx.send('Message didn\'t contain Image')
+            return await ctx.reply('А где картинка то?', mention_author=True)
+		#await self.bot.type()
+        await ctx.type()
+        if file:
+            url = file[0].url
+            similarity = link
         else:
-            #await self.bot.type()
-            if file:
-                url = file[0].url
-                similarity = link
+            url = link
+        async with self.sauce_session.get('http://saucenao.com/search.php?url={}'.format(url)) as response:
+            source = None
+            if response.status_code != 200:
+                await ctx.send(":confused: Поиск невозможен, сервис не отвечает.")
             else:
-                url = link
-            async with self.sauce_session.get('http://saucenao.com/search.php?url={}'.format(url)) as response:
-                source = None
-                if response.status == 200:
-                    soup = BeautifulSoup(await response.text(), 'html.parser')
-                    for result in soup.select('.resulttablecontent'):
-                        if float(similarity) > float(result.select('.resultsimilarityinfo')[0].contents[0][:-1]):
-                            break
-                        else:
-                            if result.select('a'):
-                                source = result.select('a')[0]['href']
-                                await ctx.reply('<{}>'.format(source))
-                                return
-                    if source is None:
-                        await ctx.reply('No source over the similarity threshold')
+                soup = BeautifulSoup(response.content, 'html.parser')
+                for result in soup.select('.resulttablecontent'):
+                    if float(similarity) > float(result.select('.resultsimilarityinfo')[0].contents[0][:-1]):
+                        break
+                    else:
+                        if result.select('a'):
+                            source = result.select('a')[0]['href']
+                            return await ctx.reply(f'<{format(source)}>', mention_author=True) ###Заменить на embedded       
+                if source is None:
+                    return await ctx.reply(":confused: С заданным показателем точности ничего не найдено", mention_author=True)
+            
 
 
     @commands.command(pass_context=True)
