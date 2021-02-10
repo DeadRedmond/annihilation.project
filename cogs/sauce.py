@@ -35,12 +35,12 @@ class Search(commands.Cog):
         else:
             url = link
         print('URL:')
-        async with requests.get(f'http://saucenao.com/search.php?url={url}') as response:
+        async with self.sauce_session.get(f'http://saucenao.com/search.php?url={url}') as response:
             source = None
-            if response.status_code != 200:
+            if response.status != 200:
                 await ctx.send(":confused: Поиск невозможен, сервис не отвечает.")
             else:
-                soup = BeautifulSoup(response.content, 'html.parser')
+                soup = BeautifulSoup(response.text(), 'html.parser')
                 for result in soup.select('.resulttablecontent'):
                     if float(similarity) > float(result.select('.resultsimilarityinfo')[0].contents[0][:-1]):
                         break
