@@ -34,7 +34,7 @@ class Search(commands.Cog):
             similarity = link
         else:
             url = link
-        async with requests.get('http://saucenao.com/search.php?url={}'.format(url)) as response:
+        async with requests.get(f'http://saucenao.com/search.php?url={format(url)}') as response:
             source = None
             if response.status_code != 200:
                 await ctx.send(":confused: Поиск невозможен, сервис не отвечает.")
