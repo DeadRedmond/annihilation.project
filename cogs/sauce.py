@@ -34,7 +34,8 @@ class Search(commands.Cog):
             similarity = link
         else:
             url = link
-        async with requests.get(f'http://saucenao.com/search.php?url={format(url)}') as response:
+        print('URL:')
+        async with requests.get(f'http://saucenao.com/search.php?url={url}') as response:
             source = None
             if response.status_code != 200:
                 await ctx.send(":confused: Поиск невозможен, сервис не отвечает.")
@@ -46,12 +47,12 @@ class Search(commands.Cog):
                     else:
                         if result.select('a'):
                             source = result.select('a')[0]['href']
-                            return await ctx.reply(f'<{format(source)}>', mention_author=True) ###Заменить на embedded       
+                            return await ctx.reply(f'<{source}>', mention_author=True) ###Заменить на embedded       
                 if source is None:
                     return await ctx.reply(":confused: С заданным показателем точности ничего не найдено", mention_author=True)
             
 
-
+'''
     @commands.command(pass_context=True)
     async def tineye(self, ctx, link=None):
         """
@@ -80,8 +81,12 @@ class Search(commands.Cog):
             message = '\n**Pages:** '
             message += '\n**Pages:** '.join(pages)
             if image_link is not None:
-                message += '\n**direct image:** <{}>'.format(image_link)
+                message += f'\n**direct image:** <{image_link}>'
             await ctx.reply(message)
+'''
+
+
+
 
 #setup function
 def setup(bot):
