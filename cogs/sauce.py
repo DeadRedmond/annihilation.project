@@ -40,7 +40,7 @@ class Search(commands.Cog):
             if response.status != 200:
                 await ctx.send(":confused: Поиск невозможен, сервис не отвечает.")
             else:
-                soup = BeautifulSoup(response.text(), 'html.parser')
+                soup = BeautifulSoup(await response.text(), 'html.parser')
                 for result in soup.select('.resulttablecontent'):
                     if float(similarity) > float(result.select('.resultsimilarityinfo')[0].contents[0][:-1]):
                         break
