@@ -33,8 +33,8 @@ class Search(commands.Cog):
                 return await ctx.reply('А где картинка то?', mention_author=True)
             url = link
         else:
+            url = file[0].url
             if link is not None:
-                url = file[0].url
                 similarity = link
 
         try:
