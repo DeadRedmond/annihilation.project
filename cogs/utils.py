@@ -1,5 +1,6 @@
 #imports
 import typing
+import random
 import discord
 from discord.ext import commands
 
@@ -28,6 +29,31 @@ class Utils(commands.Cog):
         """Бан злостных нарушителей\n(удаление сообщений за указанное количество дней - опционально)"""
         for member in members:
             await member.ban(delete_message_days=delete_days, reason=reason)
+
+    @commands.command(aliases=['шар'])
+    async def ball(self, ctx):
+        '''Спросить магический шар, предсказывающий будущее.'''
+        messages = [":8ball: Несомненно.",
+            ":8ball: Это решительно так.",
+            ":8ball: Без сомнения.",
+            ":8ball: Определенно да.",
+            ":8ball: Можешь на это рассчитывать.",
+            ":8ball: Насколько я понимаю, да.",
+            ":8ball: Скорее всего.",
+            ":8ball: Прогноз хороший.",
+            ":8ball: Да.",
+            ":8ball: Знаки указывают на то, что да.",
+            ":8ball: Ответ туманный, попробуйте еще раз.",
+            ":8ball: Спросите еще раз позже.",
+            ":8ball: Лучше не говорить тебе сейчас.",
+            ":8ball: Невозможно предсказать сейчас.",
+            ":8ball: Сконцентрируйся и спроси еще раз.",
+            ":8ball: Не рассчитывай на это.",
+            ":8ball: Ответ отрицательный",
+            ':8ball: Мои источники говорят "нет"',
+            ":8ball: Прогноз не очень хороший.",
+            ":8ball: Очень сомнительно."]
+        await ctx.send(messages[random.randint(0, len(messages) - 1)])
 
 #setup function
 def setup(bot):
