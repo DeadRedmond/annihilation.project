@@ -34,7 +34,6 @@ class Search(commands.Cog):
             similarity = link
         else:
             url = link
-        print('URL:')
         async with self.sauce_session.get(f'http://saucenao.com/search.php?url={url}') as response:
             source = None
             if response.status != 200:
@@ -42,6 +41,7 @@ class Search(commands.Cog):
             else:
                 soup = BeautifulSoup(await response.text(), 'html.parser')
                 for result in soup.select('.resulttablecontent'):
+                    print(f'Similarity:{similarity}')
                     if float(similarity) > float(result.select('.resultsimilarityinfo')[0].contents[0][:-1]):
                         break
                     else:

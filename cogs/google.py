@@ -32,6 +32,7 @@ class Google(commands.Cog):
             em = discord.Embed(color=0x992d22)
             for i in range(3):
                 em.add_field(name=f'{i+1}. {result["items"][i]["title"]}', value=f'[{result["items"][i]["link"]}]({result["items"][i]["link"]})', inline=False)
+            em.set_footer(text="Запрос: \"" + query + "\"")
             await ctx.send(f'{ctx.message.author.mention}, вот что мне удалось найти:', embed=em)
         
     @commands.command(aliases = ['image', 'img', 'картинка'])
