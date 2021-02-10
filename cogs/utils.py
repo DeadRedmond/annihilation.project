@@ -25,11 +25,9 @@ class Utils(commands.Cog):
     async def ban(self, ctx, members: commands.Greedy[discord.Member],
                     delete_days: typing.Optional[int] = 0, *,
                     reason: str):
-        """Бан злостных нарушителей\n
-        (удаление сообщений за указанное количество дней - опционально)"""
+        """Бан злостных нарушителей\n(удаление сообщений за указанное количество дней - опционально)"""
         for member in members:
             await member.ban(delete_message_days=delete_days, reason=reason)
-
 
 #setup function
 def setup(bot):

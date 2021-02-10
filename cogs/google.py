@@ -55,7 +55,6 @@ class Google(commands.Cog):
             em.set_footer(text="Запрос: \"" + query + "\"")
             await ctx.send(f'{ctx.message.author.mention}, вот что мне удалось найти:', embed=em)
 
-
 #setup function
 def setup(bot):
     bot.add_cog(Google(bot))

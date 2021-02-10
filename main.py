@@ -14,7 +14,6 @@ for extension in os.listdir("cogs"):
         except Exception as e:
             print('Failed to load extension {}\n{}: {}'.format(extension, type(e).__name__, e))
 
-
 #events
 @bot.event
 async def on_ready():
