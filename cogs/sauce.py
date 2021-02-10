@@ -27,10 +27,11 @@ class Search(commands.Cog):
         """
         file = ctx.message.attachments
         print(f'Attachments: {file}')
+        print(f'Размер: {len(file)}')
         if link is None and not file:
             return await ctx.reply('А где картинка то?', mention_author=True)
 		#await self.bot.type()
-        if file:
+        if len(file) == 0:
             url = file[0].url
             similarity = link
         else:
