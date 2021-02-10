@@ -33,12 +33,11 @@ class Google(commands.Cog):
             if len(result['items']) < 1:
                 return await ctx.send(':thinking: Интернет не в курсе, поищите что-то другое.')
             em = discord.Embed(color=0x992d22)
-            em.add_field(name='1' + result['items'][0]['title'], value='['+result['items'][0]['link']+']('+result['items'][0]['link']+')' ,inline=True)
-            em.add_field(name='2' + result['items'][1]['title'], value='['+result['items'][1]['link']+']('+result['items'][0]['link']+')' ,inline=True)
-            em.add_field(name='3' + result['items'][2]['title'], value='['+result['items'][2]['link']+']('+result['items'][0]['link']+')' ,inline=True)
-
-        
-            await ctx.send('Вот что мне удалось найти:', embed=em)
+            em.add_field(name='1. ' + result['items'][0]['title'], value='['+result['items'][0]['link']+']('+result['items'][0]['link']+')' ,inline=False)
+            em.add_field(name='2. ' + result['items'][1]['title'], value='['+result['items'][1]['link']+']('+result['items'][0]['link']+')' ,inline=False)
+            em.add_field(name='3. ' + result['items'][2]['title'], value='['+result['items'][2]['link']+']('+result['items'][0]['link']+')' ,inline=False)
+            
+            await ctx.reply('Вот что мне удалось найти:', embed=em, mention_author=True)
         
         
         '''searchInput = "https://google.com/search?q="+urllib.parse.quote(query)
