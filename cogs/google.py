@@ -50,7 +50,7 @@ class Google(commands.Cog):
                 result['items']
             except:
                 return await ctx.send(f'{ctx.message.author.mention} :thinking: Интернет не в курсе, поищите что-то другое.')
-            amount = result['items']
+            amount = len(result['items'])
             if amount < 1:
                 return await ctx.send(f'{ctx.message.author.mention} :thinking: Интернет не в курсе, поищите что-то другое.')
             em = discord.Embed(color=0x992d22)
