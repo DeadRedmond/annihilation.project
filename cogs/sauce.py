@@ -26,6 +26,7 @@ class Search(commands.Cog):
         (картинку можно просто прилепить к сообщению)
         """
         file = ctx.message.attachments
+        print(f'Attachments: {file}')
         if link is None and not file:
             return await ctx.reply('А где картинка то?', mention_author=True)
 		#await self.bot.type()
