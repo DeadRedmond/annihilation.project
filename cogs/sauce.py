@@ -3,7 +3,7 @@ import aiohttp
 from bs4 import BeautifulSoup
 import json
 
-class Search:
+class Search(commands.Cog):
     """Reverse image search commands"""
 
 
@@ -31,7 +31,7 @@ class Search:
         """
         file = ctx.message.attachments
         if link is None and not file:
-            await self.bot.say('Message didn\'t contain Image')
+            await ctx.send('Message didn\'t contain Image')
         else:
             await self.bot.type()
             if file:
@@ -63,7 +63,7 @@ class Search:
         """
         file = ctx.message.attachments
         if link is None and not file:
-            await self.bot.say('Message didn\'t contain Image')
+            await ctx.send('Message didn\'t contain Image')
         else:
             await self.bot.type()
             if file:
@@ -85,6 +85,6 @@ class Search:
                 message += '\n**direct image:** <{}>'.format(image_link)
             await self.bot.reply(message)
 
-
+#setup function
 def setup(bot):
     bot.add_cog(Search(bot))
