@@ -15,11 +15,13 @@ class Utils(commands.Cog):
         """🏓"""
         await ctx.send("🏓 Pong: **{}ms**".format(round(self.bot.latency * 1000, 2)))
 
+
     @commands.command(aliases=['эхо'])
     async def echo(self, ctx, *, arg):
         """Повторяю за тобой"""
         await ctx.message.delete()
         await ctx.send(arg)
+
 
     @commands.command(aliases= ['бан'])
     @commands.has_permissions(ban_members=True)
@@ -29,6 +31,7 @@ class Utils(commands.Cog):
         """Бан злостных нарушителей\n(удаление сообщений за указанное количество дней - опционально)"""
         for member in members:
             await member.ban(delete_message_days=delete_days, reason=reason)
+
 
     @commands.command(aliases=['шар'])
     async def ball(self, ctx):
@@ -55,6 +58,7 @@ class Utils(commands.Cog):
             ":8ball: Очень сомнительно."]
         await ctx.send(messages[random.randint(0, len(messages) - 1)])
 
+
     @commands.command(aliases=['монетка'])
     async def coin(self, ctx):
         '''Подбросить монетку'''
@@ -62,6 +66,7 @@ class Utils(commands.Cog):
             await ctx.send(':coin: Орёл!')
         else:
             await ctx.send(':coin: Решка!')
+
 
 #setup function
 def setup(bot):
