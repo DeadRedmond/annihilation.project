@@ -25,17 +25,23 @@ class Search(commands.Cog):
         Ищем соус на Saucenao
         (картинку можно просто прилепить к сообщению)
         """
+        
         file = ctx.message.attachments
-        print(f'Attachments: {file}')
-        print(f'Размер: {len(file)}')
-        if link is None and len(file)==0:
-            return await ctx.reply('А где картинка то?', mention_author=True)
 
-        if len(file) != 0:
+        if len(file)==0:
+            if link is None:
+                return await ctx.reply('А где картинка то?', mention_author=True)
+            url = link
+        elif link is not None:
             url = file[0].url
             similarity = link
-        else:
-            url = link
+
+        try:
+            similarity = float(similarity)
+        except ValueError:
+            return await ctx.reply(':warning: Неверно указана точность поиска.')
+        
+        print(f'URL={url}\nSimilaraty={similarity}')
         async with self.sauce_session.get(f'http://saucenao.com/search.php?url={url}') as response:
             source = None
             if response.status != 200:
@@ -43,8 +49,7 @@ class Search(commands.Cog):
             else:
                 soup = BeautifulSoup(await response.text(), 'html.parser')
                 for result in soup.select('.resulttablecontent'):
-                    print(f'Similarity:{similarity}')
-                    if float(similarity) > float(result.select('.resultsimilarityinfo')[0].contents[0][:-1]):
+                    if similarity > float(result.select('.resultsimilarityinfo')[0].contents[0][:-1]):
                         break
                     else:
                         if result.select('a'):
