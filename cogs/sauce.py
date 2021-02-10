@@ -49,10 +49,11 @@ class Search(commands.Cog):
                         else:
                             if result.select('a'):
                                 source = result.select('a')[0]['href']
-                                await self.bot.reply('<{}>'.format(source))
+                                await ctx.reply('<{}>'.format(source))
                                 return
                     if source is None:
-                        await self.bot.reply('No source over the similarity threshold')
+                        await ctx.reply('No source over the similarity threshold')
+
 
     @commands.command(pass_context=True)
     async def tineye(self, ctx, link=None):
@@ -83,7 +84,7 @@ class Search(commands.Cog):
             message += '\n**Pages:** '.join(pages)
             if image_link is not None:
                 message += '\n**direct image:** <{}>'.format(image_link)
-            await self.bot.reply(message)
+            await ctx.reply(message)
 
 #setup function
 def setup(bot):
