@@ -1,5 +1,6 @@
 from discord.ext import commands
 import aiohttp
+import requests
 from bs4 import BeautifulSoup
 import json
 
@@ -17,10 +18,6 @@ class Search(commands.Cog):
         self.sauce_session.close()
         self.tineye_session.close()
 
-
-    def _tag_to_title(self, tag):
-        return tag.replace(' ', ', ').replace('_', ' ').title()
-
     
     @commands.command(pass_context=True, aliases=['соус'])
     async def sauce(self, ctx, link=None, similarity=80):
@@ -37,7 +34,7 @@ class Search(commands.Cog):
             similarity = link
         else:
             url = link
-        async with self.sauce_session.get('http://saucenao.com/search.php?url={}'.format(url)) as response:
+        async with requests.get('http://saucenao.com/search.php?url={}'.format(url)) as response:
             source = None
             if response.status_code != 200:
                 await ctx.send(":confused: Поиск невозможен, сервис не отвечает.")
