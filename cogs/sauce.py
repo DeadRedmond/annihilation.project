@@ -42,7 +42,7 @@ class Search(commands.Cog):
         except ValueError:
             return await ctx.reply(':warning: Неверно указана точность поиска.')
         
-        print(f'URL={url}\nSimilaraty={similarity}')
+        #print(f'URL={url}\nSimilaraty={similarity}') #debug message
         async with self.sauce_session.get(f'http://saucenao.com/search.php?url={url}') as response:
             source = None
             if response.status != 200:
@@ -60,7 +60,7 @@ class Search(commands.Cog):
                     return await ctx.reply(":confused: С заданным показателем точности ничего не найдено", mention_author=True)
             
 
-'''
+
     @commands.command(pass_context=True)
     async def tineye(self, ctx, link=None):
         """
@@ -69,30 +69,27 @@ class Search(commands.Cog):
                 .tineye on image upload comment
         """
         file = ctx.message.attachments
-        if link is None and not file:
-            await ctx.send('Message didn\'t contain Image')
-        else:
-            #await self.bot.type()
-            if file:
-                url = file[0].url
-            else:
-                url = link
-            async with self.tineye_session.get('https://tineye.com/search/?url={}'.format(url)) as response:
-                soup = BeautifulSoup(await response.text(), 'html.parser')
-                pages = []
-                image_link = None
-                for hidden in soup.find(class_='match').select('.hidden-xs'):
-                    if hidden.contents[0].startswith('Page:'):
-                        pages.append('<{}>'.format(hidden.next_sibling['href']))
-                    else:
-                        image_link = hidden.a['href']
-            message = '\n**Pages:** '
-            message += '\n**Pages:** '.join(pages)
-            if image_link is not None:
-                message += f'\n**direct image:** <{image_link}>'
-            await ctx.reply(message)
-'''
+        if len(file)==0:
+            if link is None:
+                return await ctx.reply('А где картинка то?', mention_author=True)
+            url = link
+        url = file[0].url
+        print(f'URL={url}') #debug message
 
+        async with self.tineye_session.get(f'https://tineye.com/search/?url={url}') as response:
+            soup = BeautifulSoup(await response.text(), 'html.parser')
+            pages = []
+            image_link = None
+            for hidden in soup.find(class_='match').select('.hidden-xs'):
+                if hidden.contents[0].startswith('Page:'):
+                    pages.append(f'<{hidden.next_sibling["href"]}>')
+                else:
+                    image_link = hidden.a['href']
+        message = '\n**Pages:** '
+        message += '\n**Pages:** '.join(pages)
+        if image_link is not None:
+            message += f'\n**direct image:** <{image_link}>'
+        await ctx.reply(message)
 
 
 
