@@ -24,23 +24,24 @@ async def on_ready():
     await bot.change_presence(status = discord.Status.online, activity = discord.Game("Annihilation!"))
     print("Online!")
 
-
 #commands
-@bot.command()
+@bot.command(aliases=['пинг'])
 async def ping(ctx):
+    """🏓"""
     await ctx.send("🏓 Pong: **{}ms**".format(round(bot.latency * 1000, 2)))
 
-@bot.command(brief="Repeat the message after you")
+@bot.command(aliases=['эхо'])
 async def echo(ctx, *, arg):
+    """Повторяю за тобой"""
     await ctx.message.delete()
     await ctx.send(arg)
 
-@bot.command(brief="Mass bans members with an optional 'delete_days' parameter")
+@bot.command(aliases= ['бан'])
 @commands.has_permissions(ban_members=True)
 async def ban(ctx, members: commands.Greedy[discord.Member],
                    delete_days: typing.Optional[int] = 0, *,
                    reason: str):
-    """Mass bans members with an optional delete_days parameter"""
+    """Бан злостных нарушителей (удаление сообщений за указанное количество дней - опционально)"""
     for member in members:
         await member.ban(delete_message_days=delete_days, reason=reason)
 
