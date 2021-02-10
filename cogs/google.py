@@ -34,11 +34,8 @@ class Google(commands.Cog):
                 return await ctx.send(f'{ctx.message.author.mention} :thinking: Интернет не в курсе, поищите что-то другое.')
             em = discord.Embed(color=0x992d22)
             for i in range(3):
-                em.add_field(name=i+1 + '. ' + result['items'][i]['title'], value='['+result['items'][i]['link']+']('+result['items'][i]['link']+')' ,inline=False)
-            #em.add_field(name='1. ' + result['items'][0]['title'], value='['+result['items'][0]['link']+']('+result['items'][0]['link']+')' ,inline=False)
-            #em.add_field(name='2. ' + result['items'][1]['title'], value='['+result['items'][1]['link']+']('+result['items'][0]['link']+')' ,inline=False)
-            #em.add_field(name='3. ' + result['items'][2]['title'], value='['+result['items'][2]['link']+']('+result['items'][0]['link']+')' ,inline=False)
-            
+                #em.add_field(name={i+1} + '. ' + result['items'][i]['title'], value='['+result['items'][i]['link']+']('+result['items'][i]['link']+')' ,inline=False)
+                em.add_field(name=f'{i+1}. {result["items"][i]["title"]}', value=f'[{result["items"][i]["link"]}]({result["items"][i]["link"]})', inline=False)
             await ctx.send(f'{ctx.message.author.mention}, вот что мне удалось найти:', embed=em)
         
     @commands.command(aliases = ['image', 'img', 'картинка'])
