@@ -23,21 +23,21 @@ class Google(commands.Cog):
         #input = "https://www.googleapis.com/customsearch/v1?q=" + urllib.parse.quote_plus(query) + "&start=1" + "&key=" + google_api_key + "&cx=" + custom_search_engine
         resp = requests.get("https://www.googleapis.com/customsearch/v1?q=" + urllib.parse.quote_plus(query) + "&start=1" + "&key=" + google_api_key + "&cx=" + custom_search_engine)
         if resp.status_code !=200:
-            await ctx.send(':confused: Поиск невозможен, сервис не отвечает.')
+            await ctx.send(f'{ctx.message.author.mention}:confused: Поиск невозможен, сервис не отвечает.')
         else:        
             result = json.loads(resp.text)
             try:
                 result['items']
             except:
-                return await ctx.send(':thinking: Интернет не в курсе, поищите что-то другое.')
+                return await ctx.send(f'{ctx.message.author.mention} :thinking: Интернет не в курсе, поищите что-то другое.')
             if len(result['items']) < 1:
-                return await ctx.send(':thinking: Интернет не в курсе, поищите что-то другое.')
+                return await ctx.send(f'{ctx.message.author.mention} :thinking: Интернет не в курсе, поищите что-то другое.')
             em = discord.Embed(color=0x992d22)
             em.add_field(name='1. ' + result['items'][0]['title'], value='['+result['items'][0]['link']+']('+result['items'][0]['link']+')' ,inline=False)
             em.add_field(name='2. ' + result['items'][1]['title'], value='['+result['items'][1]['link']+']('+result['items'][0]['link']+')' ,inline=False)
             em.add_field(name='3. ' + result['items'][2]['title'], value='['+result['items'][2]['link']+']('+result['items'][0]['link']+')' ,inline=False)
             
-            await ctx.reply('Вот что мне удалось найти:', embed=em, mention_author=True)
+            await ctx.send(f'{ctx.message.author.mention}, вот что мне удалось найти:', embed=em)
         
         
         '''searchInput = "https://google.com/search?q="+urllib.parse.quote(query)
