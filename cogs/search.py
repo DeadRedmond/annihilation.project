@@ -64,9 +64,9 @@ class Search(commands.Cog):
         """Достаём комикс xkcd."""
         print(f'Комикс:{comic}')
         if comic == "random" or comic == "рандом":
-            randcomic = requests.get(f"https://c.xkcd.com/random/comic/{comic}")
+            randcomic = requests.get("https://c.xkcd.com/random/comic/")
             comic = randcomic.url.split("/")[-2]
-        site = requests.get("https://xkcd.com/{}/info.0.json".format(comic))
+        site = requests.get(f"https://xkcd.com/{comic}/info.0.json")
         if site.status_code == 404:
             site = None
             found = None
@@ -81,7 +81,7 @@ class Search(commands.Cog):
             if not found:
                 await ctx.send(":confused: Такого комикса нету")
             else:
-                site = requests.get("https://xkcd.com/{}/info.0.json".format(found))
+                site = requests.get(f"https://xkcd.com/{found}/info.0.json")
                 comic = found
         if site:
             json = site.json()
