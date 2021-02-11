@@ -19,7 +19,7 @@ class Utils(commands.Cog):
     @commands.command(aliases=['эхо'])
     async def echo(self, ctx, *, arg):
         """Повторяю за тобой"""
-        if ctx.message.channel.server.me.manage_messages:
+        if ctx.message.channel.guild.me.manage_messages:
             await ctx.message.delete() #прикрутить проверку на права
         await ctx.send(arg)
 
