@@ -62,7 +62,6 @@ class Search(commands.Cog):
     @commands.command(pass_context=True)
     async def xkcd(self, ctx, *, comic=""):
         """Достаём комикс xkcd."""
-        print(f'Комикс:{comic}')
         if comic == "random" or comic == "рандом":
             randcomic = requests.get("https://c.xkcd.com/random/comic/")
             comic = randcomic.url.split("/")[-2]
