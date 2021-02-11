@@ -2,7 +2,7 @@ from discord.ext import commands
 import aiohttp
 from bs4 import BeautifulSoup
 
-class Search(commands.Cog):
+class Sauce(commands.Cog):
     """Reverse image search commands"""
 
 
@@ -60,4 +60,4 @@ class Search(commands.Cog):
 
 #setup function
 def setup(bot):
-    bot.add_cog(Search(bot))
+    bot.add_cog(Sauce(bot))
