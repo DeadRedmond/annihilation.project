@@ -19,7 +19,8 @@ class Utils(commands.Cog):
     @commands.command(aliases=['эхо'])
     async def echo(self, ctx, *, arg):
         """Повторяю за тобой"""
-        await ctx.message.delete()
+        if self.bot.guild_permissions.administrator:
+            await ctx.message.delete() #прикрутить проверку на права
         await ctx.send(arg)
 
 
