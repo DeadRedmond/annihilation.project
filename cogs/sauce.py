@@ -1,6 +1,5 @@
 from discord.ext import commands
 import aiohttp
-import requests
 from bs4 import BeautifulSoup
 
 class Search(commands.Cog):
@@ -58,39 +57,6 @@ class Search(commands.Cog):
                 if source is None:
                     return await ctx.reply(":confused: С заданным показателем точности ничего не найдено", mention_author=True)
             
-
-
-    @commands.command(pass_context=True)
-    async def tineye(self, ctx, link=None):
-        """
-        Обратный поиск картинок
-        """
-        file = ctx.message.attachments
-        if len(file)==0:
-            if link is None:
-                return await ctx.reply('А где картинка то?', mention_author=True)
-            url = link
-        else:
-            url = file[0].url
-        
-        print(f'URL={url}') #debug message
-
-        async with self.tineye_session.get(f'https://tineye.com/search/?url={url}') as response:
-            soup = BeautifulSoup(await response.text(), 'html.parser')
-            pages = []
-            image_link = None
-            for hidden in soup.find(class_='match').select('.hidden-xs'):
-                if hidden.contents[0].startswith('Page:'):
-                    pages.append(f'<{hidden.next_sibling["href"]}>')
-                else:
-                    image_link = hidden.a['href']
-        message = '\n**Pages:** '
-        message += '\n**Pages:** '.join(pages)
-        if image_link is not None:
-            message += f'\n**direct image:** <{image_link}>'
-        await ctx.reply(message)
-
-
 
 #setup function
 def setup(bot):
