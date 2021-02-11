@@ -6,11 +6,12 @@ import discord
 import json
 import random
 from discord.ext import commands
+from bs4 import BeautifulSoup
 
 google_api_key = os.getenv("SEARCH_API")
 custom_search_engine = os.getenv("SEARCH_ENGINE")
 
-class Google(commands.Cog):
+class Search(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
@@ -56,6 +57,40 @@ class Google(commands.Cog):
             em.set_footer(text="Запрос: \"" + query + "\"")
             await ctx.send(f'{ctx.message.author.mention}, вот что мне удалось найти:', embed=em)
 
+
+
+    @commands.command(pass_context=True)
+    async def xkcd(self, ctx, *, comic=""):
+        """Достаём комикс xkcd."""
+        if comic == "random" or comic == "рандом":
+            randcomic = requests.get(f"https://c.xkcd.com/random/comic/{comic}")
+            comic = randcomic.url.split("/")[-2]
+        site = requests.get("https://xkcd.com/{}/info.0.json".format(comic))
+        if site.status_code == 404:
+            site = None
+            found = None
+            search = urllib.parse.quote(comic)
+            result = (requests.get(f"https://www.google.com/search?&q={search}+site:xkcd.com")).text
+            soup = BeautifulSoup(result, "html.parser")
+            links = soup.find_all("cite")
+            for link in links:
+                if link.text.startswith("https://xkcd.com/"):
+                    found = link.text.split("/")[3]
+                    break
+            if not found:
+                await ctx.send(":confused: Такого комикса нету")
+            else:
+                site = requests.get("https://xkcd.com/{}/info.0.json".format(found))
+                comic = found
+        if site:
+            json = site.json()
+            embed = discord.Embed(title="xkcd {}: {}".format(json["num"], json["title"]), url="https://xkcd.com/{}".format(comic))
+            embed.set_image(url=json["img"])
+            embed.set_footer(text="{}".format(json["alt"]))
+            await ctx.send("", embed=embed)
+
+
+
 #setup function
 def setup(bot):
-    bot.add_cog(Google(bot))
+    bot.add_cog(Search(bot))
