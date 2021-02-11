@@ -17,7 +17,7 @@ for extension in os.listdir("cogs"):
 #events
 @bot.event
 async def on_ready():
-    await bot.change_presence(status = discord.Status.online, activity = discord.Game("Annihilation!"))
+    await bot.change_presence(status = discord.Status.online))
     print("Online!")
 
 #bot run
