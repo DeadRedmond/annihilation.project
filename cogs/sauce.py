@@ -2,7 +2,6 @@ from discord.ext import commands
 import aiohttp
 import requests
 from bs4 import BeautifulSoup
-import json
 
 class Search(commands.Cog):
     """Reverse image search commands"""
@@ -20,9 +19,9 @@ class Search(commands.Cog):
 
     
     @commands.command(pass_context=True, aliases=['соус'])
-    async def sauce(self, ctx, link=None, similarity=80):
+    async def sauce(self, ctx, link=None, similarity=75):
         """
-        Ищем соус на Saucenao
+        Ищем соус, точность по умолчанию 75%
         (картинку можно просто прилепить к сообщению)
         """
         
@@ -64,9 +63,7 @@ class Search(commands.Cog):
     @commands.command(pass_context=True)
     async def tineye(self, ctx, link=None):
         """
-        reverse image search using tineye
-        usage:  .tineye <image-link> or
-                .tineye on image upload comment
+        Обратный поиск картинок
         """
         file = ctx.message.attachments
         if len(file)==0:
