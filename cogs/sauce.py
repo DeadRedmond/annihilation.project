@@ -70,7 +70,9 @@ class Search(commands.Cog):
             if link is None:
                 return await ctx.reply('А где картинка то?', mention_author=True)
             url = link
-        url = file[0].url
+        else:
+            url = file[0].url
+        
         print(f'URL={url}') #debug message
 
         async with self.tineye_session.get(f'https://tineye.com/search/?url={url}') as response:
