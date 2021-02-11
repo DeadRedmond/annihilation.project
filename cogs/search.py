@@ -19,7 +19,7 @@ class Search(commands.Cog):
     @commands.command(aliases = ['google', 'search', 'гугл'])
     async def g(self, ctx, *, query):
         """Поиск в Гугле"""
-        resp = requests.get("https://www.googleapis.com/customsearch/v1?q=" + urllib.parse.quote_plus(query) + "&start=1" + "&key=" + google_api_key + "&cx=" + custom_search_engine)
+        resp = requests.get(f"https://www.googleapis.com/customsearch/v1?q={urllib.parse.quote_plus(query)}&start=1&key={google_api_key}&cx={custom_search_engine}")
         if resp.status_code !=200:
             await ctx.send(f'{ctx.message.author.mention}:confused: Поиск невозможен, сервис не отвечает.')
         else:        
@@ -39,7 +39,7 @@ class Search(commands.Cog):
     @commands.command(aliases = ['image', 'img', 'картинка'])
     async def i(self, ctx, *, query):
         """Поиск картинок в Гугле"""
-        resp = requests.get("https://www.googleapis.com/customsearch/v1?q=" + urllib.parse.quote_plus(query) + "&start=1" + "&key=" + google_api_key + "&cx=" + custom_search_engine + "&searchType=image")
+        resp = requests.get(f"https://www.googleapis.com/customsearch/v1?q={urllib.parse.quote_plus(query)}&start=1&key={google_api_key}&cx={custom_search_engine}&searchType=image")
         if resp.status_code !=200:
             await ctx.send(f'{ctx.message.author.mention}:confused: Поиск невозможен, сервис не отвечает.')
         else: 
@@ -62,6 +62,7 @@ class Search(commands.Cog):
     @commands.command(pass_context=True)
     async def xkcd(self, ctx, *, comic=""):
         """Достаём комикс xkcd."""
+        print(f'Комикс:{comic}')
         if comic == "random" or comic == "рандом":
             randcomic = requests.get(f"https://c.xkcd.com/random/comic/{comic}")
             comic = randcomic.url.split("/")[-2]
