@@ -3,3 +3,4 @@ typing
 requests
 bs4
 nekos.py
+discord-pretty-help
