@@ -44,7 +44,7 @@ class Sauce(commands.Cog):
         async with self.sauce_session.get(f'http://saucenao.com/search.php?url={url}') as response:
             source = None
             if response.status != 200:
-                await ctx.send(":confused: Поиск невозможен, сервис не отвечает.")
+                return await ctx.send(":confused: Поиск невозможен, сервис не отвечает.")
             else:
                 soup = BeautifulSoup(await response.text(), 'html.parser')
                 for result in soup.select('.resulttablecontent'):
