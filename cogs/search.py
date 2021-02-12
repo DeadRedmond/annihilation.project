@@ -47,7 +47,7 @@ class Search(commands.Cog):
     @commands.command(aliases = ['image', 'img', 'картинка'])
     async def i(self, ctx, *, query):
         """Поиск картинок в Гугле"""
-        
+
         #resp = requests.get(f"https://www.googleapis.com/customsearch/v1?q={urllib.parse.quote_plus(query)}&start=1&key={google_api_key}&cx={custom_search_engine}&searchType=image")
         
         async with aiohttp.ClientSession(headers=self.header) as session:
@@ -65,6 +65,7 @@ class Search(commands.Cog):
                         return await ctx.send(f'{ctx.message.author.mention} :thinking: Интернет не в курсе, поищите что-то другое.')
                     em = discord.Embed(color=0xa0cfe5)
                     item = random.randint(0, amount)
+                    print(f'Amount:{amount}\tItem:{item}') #debug message
                     em.set_image(url=result['items'][item]['link'])
                     em.set_footer(text="Запрос: \"" + query + "\"")
                     await ctx.send(f'{ctx.message.author.mention}, вот что мне удалось найти:', embed=em)
