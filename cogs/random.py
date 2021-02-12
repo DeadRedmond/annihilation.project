@@ -32,33 +32,33 @@ class Random(commands.Cog):
 
 
 
-    @commands.command()
+    @commands.command(aliases=['кот', '🐱'])
     async def cat(self, ctx):
         """ Posts a random cat """
         await self.randomimageapi(ctx, 'https://some-random-api.ml/img/cat')
 
-    @commands.command()
+    @commands.command(aliases=[':dog:', "🐶"])
     async def dog(self, ctx):
-        """ Posts a random dog """
+        """ :dog: """
         await self.randomimageapi(ctx, 'https://some-random-api.ml/img/dog')
 
-    @commands.command(aliases=["bird"])
+    @commands.command(aliases=["bird", "птица", "птиц", "🐦"])
     async def birb(self, ctx):
-        """ Posts a random birb """
+        """ :bird: """
         await self.randomimageapi(ctx, 'https://some-random-api.ml/img/birb')
 
-    @commands.command()
+    @commands.command(aliases=["лис", "лиса", "🦊"])
     async def fox(self, ctx):
-        """ Posts a random fox """
+        """ :fox: """
         await self.randomimageapi(ctx, 'https://some-random-api.ml/img/fox')
 
     @commands.command(aliases=['мем'])
     async def meme(self, ctx):
-        """Posts a random meme"""
+        """Постит слусайный мем"""
         async with aiohttp.ClientSession(headers=self.header) as cs:
             async with cs.get('https://www.reddit.com/r/memes/new.json?sort=hot') as res:
                 r = await res.json()
-                em = discord.Embed(title="Random meme", color=0xa0cfe5)
+                em = discord.Embed(color=0xa0cfe5)
                 em.set_image(url=r['data']['children'][randint(0, 25)]['data']['url'])
                 await ctx.send("", embed=em)
 
