@@ -3,7 +3,7 @@ import os
 import discord
 from discord.ext import commands
 
-bot = commands.Bot(command_prefix=".")
+bot = commands.Bot(command_prefix=".", help_command=None)
 token = os.getenv("BOT_TOKEN")
 
 #enable cogs
