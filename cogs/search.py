@@ -64,8 +64,7 @@ class Search(commands.Cog):
                     if amount < 1:
                         return await ctx.send(f'{ctx.message.author.mention} :thinking: Интернет не в курсе, поищите что-то другое.')
                     em = discord.Embed(color=0xa0cfe5)
-                    item = random.randint(0, amount)
-                    print(f'Amount:{amount}\tItem:{item}') #debug message
+                    item = random.randint(0, amount -1)
                     em.set_image(url=result['items'][item]['link'])
                     em.set_footer(text="Запрос: \"" + query + "\"")
                     await ctx.send(f'{ctx.message.author.mention}, вот что мне удалось найти:', embed=em)
