@@ -30,7 +30,7 @@ class Search(commands.Cog):
                 return await ctx.send(f'{ctx.message.author.mention} :thinking: Интернет не в курсе, поищите что-то другое.')
             if len(result['items']) < 1:
                 return await ctx.send(f'{ctx.message.author.mention} :thinking: Интернет не в курсе, поищите что-то другое.')
-            em = discord.Embed(color=0x992d22)
+            em = discord.Embed(color=0xa0cfe5)
             for i in range(3):
                 em.add_field(name=f'{i+1}. {result["items"][i]["title"]}', value=f'[{result["items"][i]["link"]}]({result["items"][i]["link"]})', inline=False)
             em.set_footer(text="Запрос: \"" + query + "\"")
@@ -51,7 +51,7 @@ class Search(commands.Cog):
             amount = len(result['items'])
             if amount < 1:
                 return await ctx.send(f'{ctx.message.author.mention} :thinking: Интернет не в курсе, поищите что-то другое.')
-            em = discord.Embed(color=0x992d22)
+            em = discord.Embed(color=0xa0cfe5)
             item = random.randint(0, amount)
             em.set_image(url=result['items'][item]['link'])
             em.set_footer(text="Запрос: \"" + query + "\"")
@@ -84,9 +84,9 @@ class Search(commands.Cog):
                 comic = found
         if site:
             json = site.json()
-            embed = discord.Embed(title="xkcd {}: {}".format(json["num"], json["title"]), url="https://xkcd.com/{}".format(comic))
+            embed = discord.Embed(title=f"xkcd {json["num"]}: {json["title"]}", url=f"https://xkcd.com/{comic}", color=0xa0cfe5)
             embed.set_image(url=json["img"])
-            embed.set_footer(text="{}".format(json["alt"]))
+            embed.set_footer(text=f"{json["alt"]}")
             await ctx.send("", embed=embed)
 
 
