@@ -2,3 +2,4 @@ discord.py
 typing
 requests
 bs4
+nekos.py

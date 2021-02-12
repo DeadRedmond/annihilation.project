@@ -6,6 +6,8 @@ from discord.ext import commands
 bot = commands.Bot(command_prefix="n/")
 token = os.getenv("BOT_TOKEN")
 
+bot.help_command(commands.DefaultHelpCommand(dm_help=True, commands_heading="Команды:"))
+
 #enable cogs
 for extension in os.listdir("cogs"):
     if extension.endswith(".py"):
