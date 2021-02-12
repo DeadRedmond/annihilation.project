@@ -2,7 +2,6 @@
 import os
 import discord
 from discord.ext import commands
-from pretty_help import PrettyHelp
 
 bot = commands.Bot(command_prefix="n/", help_command=None)
 token = os.getenv("BOT_TOKEN")
