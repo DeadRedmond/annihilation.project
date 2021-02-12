@@ -84,9 +84,9 @@ class Search(commands.Cog):
                 comic = found
         if site:
             json = site.json()
-            embed = discord.Embed(title=f"xkcd {json["num"]}: {json["title"]}", url=f"https://xkcd.com/{comic}", color=0xa0cfe5)
+            embed = discord.Embed(title=f"xkcd {json['num']}: {json['title']}", url=f"https://xkcd.com/{comic}", color=0xa0cfe5)
             embed.set_image(url=json["img"])
-            embed.set_footer(text=f"{json["alt"]}")
+            embed.set_footer(text=f"{json['alt']}")
             await ctx.send("", embed=embed)
 
 
