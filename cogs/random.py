@@ -34,23 +34,24 @@ class Random(commands.Cog):
 
     @commands.command(aliases=['кот', '🐱'])
     async def cat(self, ctx):
-        """ Posts a random cat """
+        """ 🐱 """
         await self.randomimageapi(ctx, 'https://some-random-api.ml/img/cat')
 
     @commands.command(aliases=[':dog:', "🐶"])
     async def dog(self, ctx):
-        """ :dog: """
+        """ 🐶 """
         await self.randomimageapi(ctx, 'https://some-random-api.ml/img/dog')
 
     @commands.command(aliases=["bird", "птица", "птиц", "🐦"])
     async def birb(self, ctx):
-        """ :bird: """
+        """ 🐦 """
         await self.randomimageapi(ctx, 'https://some-random-api.ml/img/birb')
 
     @commands.command(aliases=["лис", "лиса", "🦊"])
     async def fox(self, ctx):
-        """ :fox: """
+        """ 🦊 """
         await self.randomimageapi(ctx, 'https://some-random-api.ml/img/fox')
+    
 
     @commands.command(aliases=['мем'])
     async def meme(self, ctx):
@@ -61,6 +62,7 @@ class Random(commands.Cog):
                 em = discord.Embed(color=0xa0cfe5)
                 em.set_image(url=r['data']['children'][randint(0, 25)]['data']['url'])
                 await ctx.send("", embed=em)
+
 
 
 #setup function

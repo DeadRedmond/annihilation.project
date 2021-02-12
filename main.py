@@ -3,7 +3,7 @@ import os
 import discord
 from discord.ext import commands
 
-bot = commands.Bot(command_prefix="!")
+bot = commands.Bot(command_prefix="n/")
 token = os.getenv("BOT_TOKEN")
 
 #enable cogs
@@ -17,7 +17,7 @@ for extension in os.listdir("cogs"):
 #events
 @bot.event
 async def on_ready():
-    await bot.change_presence(status = discord.Status.online, activity = discord.Game("!help"))
+    await bot.change_presence(status = discord.Status.online, activity = discord.Game("n/help"))
     print("Online!")
 
 #bot run
