@@ -10,7 +10,7 @@ class MyHelpCommand(commands.DefaultHelpCommand):
 
         return '{0.clean_prefix}{1.qualified_name} {1.signature}'.format(self, command)
 
-class MyCog(commands.Cog):
+class Help(commands.Cog):
     def __init__(self, bot):
         self._original_help_command = bot.help_command
         bot.help_command = MyHelpCommand()
@@ -20,7 +20,7 @@ class MyCog(commands.Cog):
         bot.help_command = self._original_help_command
 
 def setup(bot):
-    bot.add_cog(MyCog(bot))
+    bot.add_cog(Help(bot))
 
 '''
 class Help(commands.Cog):
