@@ -55,7 +55,7 @@ class Random(commands.Cog):
 
     @commands.command(aliases=['мем'])
     async def meme(self, ctx):
-        """Постит слусайный мем"""
+        """Постит случайный мем"""
         async with aiohttp.ClientSession(headers=self.header) as cs:
             async with cs.get('https://www.reddit.com/r/memes/new.json?sort=hot') as res:
                 r = await res.json()
