@@ -85,7 +85,7 @@ class Random(commands.Cog):
         await self.nekoslifeapi(ctx, 'https://some-random-api.ml/img/lizard')
     
 
-    @commands.command(aliases=['мем'])
+    @commands.command(aliases=["мем"])
     async def meme(self, ctx):
         """Постит случайную картинку с r/memes"""
         async with aiohttp.ClientSession(headers=self.header) as cs:
@@ -96,7 +96,7 @@ class Random(commands.Cog):
                 await ctx.send("", embed=em)
 
 
-    @commands.command(aliases='нсфв')
+    @commands.command(aliases=["нсфв"])
     @commands.is_nsfw()
     async def nsfw(self, ctx):
         """Постит случайную картинку с r/nsfw"""

@@ -19,7 +19,7 @@ class Utils(commands.Cog):
 
     @commands.command(aliases=['эхо'])
     async def echo(self, ctx, *, arg):
-        """Повторяю за тобой"""
+        """:repeat: Повторяю за тобой"""
         if ctx.message.channel.guild.me.guild_permissions.manage_messages:
             await ctx.message.delete() #прикрутить проверку на права
         await ctx.send(arg)
@@ -37,7 +37,7 @@ class Utils(commands.Cog):
 
     @commands.command(aliases=['шар'])
     async def ball(self, ctx):
-        '''Спросить магический шар, предсказывающий будущее.'''
+        ''':8ball: Спросить магический шар, предсказывающий будущее.'''
         messages = [":8ball: Несомненно.",
             ":8ball: Это решительно так.",
             ":8ball: Без сомнения.",
@@ -63,7 +63,7 @@ class Utils(commands.Cog):
 
     @commands.command(aliases=['монетка'])
     async def coin(self, ctx):
-        '''Подбросить монетку'''
+        ''':coin: Подбросить монетку'''
         if random.randint(0, 1) == 1:
             await ctx.send(':coin: Орёл!')
         else:
