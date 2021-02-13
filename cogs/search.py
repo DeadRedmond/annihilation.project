@@ -13,6 +13,7 @@ google_api_key = os.getenv("SEARCH_API")
 custom_search_engine = os.getenv("SEARCH_ENGINE")
 
 class Search(commands.Cog):
+    'Поиск в интернете'
 
     def __init__(self, bot):
         self.bot = bot

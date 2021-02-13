@@ -5,6 +5,7 @@ import discord
 from discord.ext import commands
 
 class Utils(commands.Cog):
+    "Разные команды"
 
     def __init__(self, bot):
         self.bot = bot
