@@ -4,7 +4,7 @@ import random
 import discord
 from discord.ext import commands
 
-class Utils(commands.Cog):
+class Other(commands.Cog):
     "Разные команды"
 
     def __init__(self, bot):
@@ -72,4 +72,4 @@ class Utils(commands.Cog):
 
 #setup function
 def setup(bot):
-    bot.add_cog(Utils(bot))
+    bot.add_cog(Other(bot))

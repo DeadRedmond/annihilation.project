@@ -1,4 +1,3 @@
 /.vscode
-/cogs/utils
 **/*.test.py
 todo.txt
