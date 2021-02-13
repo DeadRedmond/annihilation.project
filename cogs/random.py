@@ -66,6 +66,18 @@ class Random(commands.Cog):
                 await ctx.send("", embed=em)
 
 
+    @commands.command(aliases=["frog"])
+    async def forg(self, ctx):
+        """Постит случайную картинку с r/frogs"""
+        async with aiohttp.ClientSession(headers=header) as cs:
+            async with cs.get('https://www.reddit.com/r/frogs/new.json?sort=hot') as res:
+                r = await res.json()
+                em = discord.Embed(color=0xa0cfe5)
+                em.set_image(url=r['data']['children'][randint(0, 25)]['data']['url'])
+                await ctx.send("", embed=em)
+
+
+
     @commands.command(aliases=["нсфв"])
     async def nsfw(self, ctx):
         """Постит случайную картинку с r/nsfw"""
