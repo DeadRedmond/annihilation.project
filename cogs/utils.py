@@ -21,7 +21,7 @@ class Utils(commands.Cog):
     async def echo(self, ctx, *, arg):
         """:repeat: Повторяю за тобой"""
         if ctx.message.channel.guild.me.guild_permissions.manage_messages:
-            await ctx.message.delete() #прикрутить проверку на права
+            await ctx.message.delete()
         await ctx.send(arg)
 
 

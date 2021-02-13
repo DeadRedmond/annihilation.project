@@ -1,4 +1,5 @@
 #import
+import asyncio
 import aiohttp
 import json
 import discord
@@ -81,7 +82,7 @@ class Random(commands.Cog):
 
     @commands.command(aliases=["ящурка", "🦎"])
     async def lizard(self, ctx):
-        """ Постим ящурок :lizard: """
+        """ Постим ящурок 🦎"""
         await self.nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/lizard')
     
 
@@ -107,8 +108,12 @@ class Random(commands.Cog):
                     em.set_image(url=r['data']['children'][randint(0, 25)]['data']['url'])
                     await ctx.send("", embed=em)
         else:
-            return await ctx.reply("Эту команду можно искользовать только в NSFW-каналах")
-
+            message = await ctx.reply("Эту команду можно искользовать только в NSFW-каналах")
+            if ctx.message.channel.guild.me.guild_permissions.manage_messages:
+                await asyncio.sleep(10)
+                await ctx.message.delete()
+                await message.message.delete()
+                
 
 #setup function
 def setup(bot):
