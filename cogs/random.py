@@ -77,12 +77,12 @@ class Random(commands.Cog):
     @commands.command(aliases=["гусь"])
     async def goose(self, ctx):
         """ Постим гуся """
-        await self.nekoslifeapi(ctx, 'https://some-random-api.ml/img/goose')
+        await self.nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/goose')
 
     @commands.command(aliases=["ящурка", "🦎"])
     async def lizard(self, ctx):
         """ Постим ящурок :lizard: """
-        await self.nekoslifeapi(ctx, 'https://some-random-api.ml/img/lizard')
+        await self.nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/lizard')
     
 
     @commands.command(aliases=["мем"])
@@ -97,7 +97,6 @@ class Random(commands.Cog):
 
 
     @commands.command(aliases=["нсфв"])
-    @commands.is_nsfw()
     async def nsfw(self, ctx):
         """Постит случайную картинку с r/nsfw"""
         if ctx.channel.is_nsfw():
