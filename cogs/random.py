@@ -54,8 +54,8 @@ class Random(commands.Cog):
         """ Постим ящурок 🦎"""
         await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/lizard')
 
-    @commands.command(aliases=["frog", "легушка", "🐸"])
-    async def forg(self, ctx):
+    @commands.command(aliases=["forg", "легушка", "🐸"])
+    async def frog(self, ctx):
         """Постим легущек 🐸"""
         em = discord.Embed(color=0xa0cfe5)
         tmp = randint(0, 54)
