@@ -59,7 +59,7 @@ class Random(commands.Cog):
         """Постим легущек 🐸"""
         em = discord.Embed(color=0xa0cfe5)
         tmp = randint(0, 54)
-        em.set_image(url=f"http://www.allaboutfrogs.org/funstuff/random/00{tmp:02d}().jpg")
+        em.set_image(url=f"http://www.allaboutfrogs.org/funstuff/random/00{tmp:02d}.jpg")
         await ctx.send("", embed=em)
 
     
