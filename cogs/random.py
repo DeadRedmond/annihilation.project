@@ -80,13 +80,17 @@ class Random(commands.Cog):
     @commands.command(aliases=["нсфв"])
     async def nsfw(self, ctx):
         """Постит случайную картинку с r/nsfw"""
-        if ctx.channel.is_nsfw():
+        if ctx.channel.is_nsfw() or ctx.channel.type is discord.ChannelType.private:
             async with aiohttp.ClientSession(headers=header) as cs:
                 async with cs.get('https://www.reddit.com/r/nsfw/new.json?sort=hot') as res:
                     r = await res.json()
-                    em = discord.Embed(color=0xa0cfe5)
-                    em.set_image(url=r['data']['children'][randint(0, 25)]['data']['url'])
-                    await ctx.send("", embed=em)
+                    url = r['data']['children'][randint(0, 25)]['data']['url']
+                    if url.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.webp')):
+                        em = discord.Embed(color=0xa0cfe5)
+                        em.set_image(url=url)
+                        await ctx.send("", embed=em)
+                    else:
+                        await ctx.send(url)
         else:
             message = await ctx.reply("Эту команду можно искользовать только в NSFW-каналах")
             if ctx.message.channel.guild.me.guild_permissions.manage_messages:
