@@ -53,7 +53,17 @@ class Random(commands.Cog):
     async def lizard(self, ctx):
         """ Постим ящурок 🦎"""
         await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/lizard')
+
+    @commands.command(aliases=["frog", "легушка", "🐸"])
+    async def forg(self, ctx):
+        """Постим легущек 🐸"""
+        em = discord.Embed(color=0xa0cfe5)
+        tmp = randint(0, 54)
+        em.set_image(url=f"http://www.allaboutfrogs.org/funstuff/random/00{tmp:02d}().jpg")
+        await ctx.send("", embed=em)
+
     
+
 
     @commands.command(aliases=["мем"])
     async def meme(self, ctx):
@@ -66,18 +76,7 @@ class Random(commands.Cog):
                 await ctx.send("", embed=em)
 
 
-    @commands.command(aliases=["frog"])
-    async def forg(self, ctx):
-        """Постит случайную картинку с r/frogs"""
-        async with aiohttp.ClientSession(headers=header) as cs:
-            async with cs.get('https://www.reddit.com/r/frogs/new.json?sort=hot') as res:
-                r = await res.json()
-                em = discord.Embed(color=0xa0cfe5)
-                em.set_image(url=r['data']['children'][randint(0, 25)]['data']['url'])
-                await ctx.send("", embed=em)
-
-
-
+    
     @commands.command(aliases=["нсфв"])
     async def nsfw(self, ctx):
         """Постит случайную картинку с r/nsfw"""
