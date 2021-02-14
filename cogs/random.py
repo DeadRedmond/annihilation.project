@@ -71,9 +71,13 @@ class Random(commands.Cog):
         async with aiohttp.ClientSession(headers=header) as cs:
             async with cs.get('https://www.reddit.com/r/memes/new.json?sort=hot') as res:
                 r = await res.json()
-                em = discord.Embed(color=0xa0cfe5)
-                em.set_image(url=r['data']['children'][randint(0, 25)]['data']['url'])
-                await ctx.send("", embed=em)
+                url = r['data']['children'][randint(0, 25)]['data']['url']
+                if url.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.webp')):
+                    em = discord.Embed(color=0xa0cfe5)
+                    em.set_image(url=url)
+                    await ctx.send("", embed=em)
+                else:
+                    await ctx.send(url)
 
 
     
