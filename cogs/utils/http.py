@@ -21,7 +21,7 @@ async def randomimageapi(ctx, url: str):
             await ctx.send("", embed=em)
 
 
-async def nekoslifeapi(ctx, url: str, text=None):
+async def nekoslifeapi(ctx, url: str, text=""):
     async with aiohttp.ClientSession() as session:            
         async with session.get(url) as content:
             if content.status != 200:
