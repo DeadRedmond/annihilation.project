@@ -54,7 +54,7 @@ class Anime(commands.Cog):
         await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/waifu', "Вот твоя вайфу")
     
     @commands.command()
-    async def poke(self, ctx, typing.Optional[discord.Member]):
+    async def poke(self, ctx, user: typing.Optional[discord.Member]):
         """
         poke
         """
