@@ -1,8 +1,8 @@
 #imports
 import typing
-import random
 import discord
 from discord.ext import commands
+from random import randint
 
 class Other(commands.Cog):
     "Разные команды"
@@ -35,8 +35,10 @@ class Other(commands.Cog):
             await member.ban(delete_message_days=delete_days, reason=reason)
 
     @commands.command()
+    @commands.is_owner()
+    @commands.has_permissions(manage_messages=True)
     async def purge(self, ctx, limit=10):
-        await ctx.channel.purge(limit=limit)
+        await ctx.channel.purge(limit=limit+1)
 
 
     @commands.command(aliases=['шар'])
@@ -62,13 +64,13 @@ class Other(commands.Cog):
             ':8ball: Мои источники говорят "нет"',
             ":8ball: Прогноз не очень хороший.",
             ":8ball: Очень сомнительно."]
-        await ctx.send(messages[random.randint(0, len(messages) - 1)])
+        await ctx.send(messages[randint(0, len(messages) - 1)])
 
 
     @commands.command(aliases=['монетка'])
     async def coin(self, ctx):
         ''':coin: Подбросить монетку'''
-        if random.randint(0, 1) == 1:
+        if randint(0, 1) == 1:
             await ctx.send(':coin: Орёл!')
         else:
             await ctx.send(':coin: Решка!')

@@ -5,6 +5,7 @@ import discord
 import asyncio
 import typing
 from discord.ext import commands
+from random import randint
 
 from cogs.utils.http import nekoslifeapi, header
 
@@ -17,7 +18,14 @@ class Anime(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    
+    @commands.command()
+    async def smug(self, ctx):
+        """
+        smug
+        """
+        await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/smug')
+
+
     @commands.command(aliases=['неко'])
     async def neko(self, ctx):
         """
@@ -45,13 +53,19 @@ class Anime(commands.Cog):
         kemonomimi
         """
         await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/kemonomimi')
-    
+
+
+    """Команды с юзером"""
+
     @commands.command(aliases=['вайфу'])
-    async def waifu(self, ctx):
+    async def waifu(self, ctx, user: typing.Optional[discord.Member]):
         """
         Получи свою вайфу
         """
-        await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/waifu', "Вот твоя вайфу")
+        if user is not None:
+            await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/waifu', f'{ctx.author} выбрал вайфу для {user}')
+        else:
+            await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/waifu')
     
     @commands.command()
     async def poke(self, ctx, user: typing.Optional[discord.Member]):
@@ -59,7 +73,7 @@ class Anime(commands.Cog):
         poke
         """
         if user is not None:
-            await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/poke', f'{ctx.author} ткнул {user}')
+            await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/poke', f'{ctx.author} ткнул пальцем в {user}')
         else:
             await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/poke')
     
@@ -68,10 +82,21 @@ class Anime(commands.Cog):
         """
         hug
         """
+        api=['https://nekos.life/api/v2/img/hug', 'https://nekos.life/api/v2/img/cuddle']
         if user is not None:
-            await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/hug', f'{ctx.author} крепко обнял {user}')
+            await nekoslifeapi(ctx, f'{api[randint(0, 1)]}', f'{ctx.author} вдруг решил обняться с {user}')
         else:
-            await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/hug')
+            await nekoslifeapi(ctx, 'f{api[randint(0, 1)]}')
+
+    @commands.command()
+    async def pat(self, ctx, user: typing.Optional[discord.Member]):
+        """
+        pat
+        """
+        if user is not None:
+            await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/pat', f'{ctx.author} неожиданно решил погладить {user}')
+        else:
+            await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/pat')
     
 
     
@@ -97,6 +122,18 @@ class Anime(commands.Cog):
         """ Random yuri gif """
         if ctx.channel.is_nsfw() or ctx.channel.type is discord.ChannelType.private:
             await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/yuri')
+        else:
+            message = await ctx.reply("Эту команду можно искользовать только в NSFW-каналах")
+            if ctx.message.channel.guild.me.guild_permissions.manage_messages:
+                await asyncio.sleep(10)
+                await ctx.message.delete()
+                await message.delete()
+
+    @commands.command()
+    async def tits(self, ctx):
+        """ Random anime tits pic """
+        if ctx.channel.is_nsfw() or ctx.channel.type is discord.ChannelType.private:
+            await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/tits')
         else:
             message = await ctx.reply("Эту команду можно искользовать только в NSFW-каналах")
             if ctx.message.channel.guild.me.guild_permissions.manage_messages:

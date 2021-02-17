@@ -32,6 +32,6 @@ async def nekoslifeapi(ctx, url: str, text=None):
             except:
                 print(f"Error in:\n {content.text}\n\n")
                 return await ctx.reply(":confused: Что-то пошло не так.")
-            em = discord.Embed(title=text, color=0xa0cfe5)
+            em = discord.Embed(color=0xa0cfe5)
             em.set_image(url=res['url'])
-            await ctx.send("", embed=em)
+            await ctx.send(f'{text}', embed=em)
