@@ -63,7 +63,7 @@ class Anime(commands.Cog):
         Получи свою вайфу
         """
         if user is not None:
-            await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/waifu', f'{ctx.author} выбрал вайфу для {user}')
+            await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/waifu', f'{ctx.author.mention} выбрал вайфу для {user.mention}')
         else:
             await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/waifu')
     
@@ -73,7 +73,7 @@ class Anime(commands.Cog):
         poke
         """
         if user is not None:
-            await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/poke', f'{ctx.author} ткнул пальцем в {user}')
+            await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/poke', f'{ctx.author.mention} ткнул пальцем в {user.mention}')
         else:
             await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/poke')
     
@@ -84,7 +84,7 @@ class Anime(commands.Cog):
         """
         api=['https://nekos.life/api/v2/img/hug', 'https://nekos.life/api/v2/img/cuddle']
         if user is not None:
-            await nekoslifeapi(ctx, f'{api[randint(0, 1)]}', f'{ctx.author} вдруг решил обняться с {user}')
+            await nekoslifeapi(ctx, f'{api[randint(0, 1)]}', f'{ctx.author.mention} вдруг решил обняться с {user.mention}')
         else:
             await nekoslifeapi(ctx, 'f{api[randint(0, 1)]}')
 
@@ -94,7 +94,7 @@ class Anime(commands.Cog):
         pat
         """
         if user is not None:
-            await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/pat', f'{ctx.author} неожиданно решил погладить {user}')
+            await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/pat', f'{ctx.author.mention} неожиданно решил погладить {user.mention}')
         else:
             await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/pat')
     

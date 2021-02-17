@@ -36,8 +36,11 @@ class Other(commands.Cog):
 
     @commands.command()
     @commands.is_owner()
-    @commands.has_permissions(manage_messages=True)
-    async def purge(self, ctx, limit=10):
+    async def purge(self, ctx, limit=1):
+        """
+        Удаляет выбранное количество сообщений в канале
+        (по умолчанию удаляет только предыдущее)
+        """
         await ctx.channel.purge(limit=limit+1)
 
 
