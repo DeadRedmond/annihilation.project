@@ -73,15 +73,7 @@ class Anime(commands.Cog):
         else:
             await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/hug')
     
-    @commands.command()
-    async def spank(self, ctx, user: typing.Optional[discord.Member]):
-        """
-        spank
-        """
-        if user is not None:
-            await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/spank', f'{ctx.author} прописал щелбан {user}')
-        else:
-            await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/spank')
+
     
 
 

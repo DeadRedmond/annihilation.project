@@ -34,6 +34,10 @@ class Other(commands.Cog):
         for member in members:
             await member.ban(delete_message_days=delete_days, reason=reason)
 
+    @commands.command()
+    async def purge(self, ctx, limit=10):
+        await ctx.channel.purge(limit=limit)
+
 
     @commands.command(aliases=['шар'])
     async def ball(self, ctx):
