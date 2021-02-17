@@ -21,7 +21,7 @@ async def randomimageapi(ctx, url: str):
             await ctx.send("", embed=em)
 
 
-async def nekoslifeapi(ctx, url: str):
+async def nekoslifeapi(ctx, url: str, text=None):
     async with aiohttp.ClientSession() as session:            
         async with session.get(url) as content:
             if content.status != 200:
@@ -32,6 +32,6 @@ async def nekoslifeapi(ctx, url: str):
             except:
                 print(f"Error in:\n {content.text}\n\n")
                 return await ctx.reply(":confused: Что-то пошло не так.")
-            em = discord.Embed(color=0xa0cfe5)
+            em = discord.Embed(title=text, color=0xa0cfe5)
             em.set_image(url=res['url'])
             await ctx.send("", embed=em)
