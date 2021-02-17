@@ -69,7 +69,7 @@ class Anime(commands.Cog):
         hug
         """
         if user is not None:
-            nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/hug', f'{ctx.author} крепко обнял {user}')
+            await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/hug', f'{ctx.author} крепко обнял {user}')
         else:
             await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/hug')
     
