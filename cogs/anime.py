@@ -102,7 +102,7 @@ class Anime(commands.Cog):
         pat
         """
         if user is None:
-            return await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/pat)
+            return await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/pat')
         elif user == ctx.author:
             text=f'{user.mention} хочет что бы его погладили. Ну давай, иди сюда'
         else:
