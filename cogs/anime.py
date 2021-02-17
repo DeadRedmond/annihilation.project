@@ -113,3 +113,7 @@ class Anime(commands.Cog):
                 await message.delete()
 
 
+
+#setup function
+def setup(bot):
+    bot.add_cog(Anime(bot))
