@@ -14,9 +14,9 @@ class EGS(commands.Cog):
 
     @commands.command(aliases=['егс'])
     async def egs(self, ctx):
-    '''
-    Получить еженедельную халяву из EGS
-    '''
+        '''
+        Получить еженедельную халяву из EGS
+        '''
         now=datetime.now()
         async with aiohttp.ClientSession() as session:
             async with session.get('https://store-site-backend-static.ak.epicgames.com/freeGamesPromotions') as resp:
