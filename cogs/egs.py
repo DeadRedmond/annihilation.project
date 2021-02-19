@@ -29,7 +29,7 @@ class EGS(commands.Cog):
                         if now > datetime.strptime(item['effectiveDate'], '%Y-%m-%dT%H:%M:%S.%fZ'):
                             em = discord.Embed(title=item['title'], url=f"https://www.epicgames.com/store/ru/product/{item['productSlug']}/home" ,color=0xa0cfe5)
                             em.set_image(url=item['keyImages'][2]['url'])
-                            ctx.send("", embed=em)
+                            await ctx.send("", embed=em)
                         else:
                             continue
 
