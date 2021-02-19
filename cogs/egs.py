@@ -24,11 +24,12 @@ class EGS(commands.Cog):
                     await ctx.send(f'{ctx.message.author.mention}:confused: Cервис не отвечает.')
                 else:
                     result = json.loads(await resp.text())
-                    await ctx.send("На этой неделе у нас следующие игры:")
+                    await ctx.send("Сейчас в раздаче следующие игры:")
                     for item in result['data']['Catalog']['searchStore']['elements']:
                         if now > datetime.strptime(item['effectiveDate'], '%Y-%m-%dT%H:%M:%S.%fZ'):
-                            em = discord.Embed(title=item['title'], url=f"https://www.epicgames.com/store/ru/product/{item['productSlug']}/home", descriptiom=item['description'], color=0xa0cfe5)
-                            em.set_image(url=item['keyImages'][2]['url'])
+                            em = discord.Embed(title=item['title'], url=f"https://www.epicgames.com/store/ru/product/{item['productSlug']}/home",  description=item['description'], color=0xa0cfe5)
+                            em.set_thumbnail(url=item['keyImages'][2]['url'])
+                            em.description
                             await ctx.send("", embed=em)
                         else:
                             continue
