@@ -13,7 +13,7 @@ class EGS(commands.Cog):
         '''
         Получить еженедельную халяву из EGS
         '''
-        freegames(ctx)
+        await freegames(ctx)
 
 
 #setup function
