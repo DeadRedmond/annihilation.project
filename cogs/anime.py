@@ -109,16 +109,6 @@ class Anime(commands.Cog):
             text=f'{ctx.author.mention} неожиданно решил погладить {user.mention}'
         return await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/pat', text)
 
-        
-
-        if user is not None:
-            return await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/pat', f'{ctx.author.mention} неожиданно решил погладить {user.mention}')
-        else:
-            return await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/pat')
-    
-
-    
-
 
     '''NSFW COMMANDS!!!'''
 
