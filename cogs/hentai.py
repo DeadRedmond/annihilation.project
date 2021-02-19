@@ -1,4 +1,5 @@
 #import
+import asyncio
 import discord
 import typing
 from discord.ext import commands
@@ -15,15 +16,13 @@ class Hentai(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-'''NSFW COMMANDS!!!'''
-
     @commands.command(aliases=['хентай'])
     @commands.is_nsfw()
     async def hentai(self, ctx):
         """ Random hentai """
         urls=['https://nekos.life/api/v2/img/classic', 'https://nekos.life/api/v2/img/Random_hentai_gif']
         if ctx.channel.type is discord.ChannelType.private or ctx.channel.is_nsfw():
-            return await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/Random_hentai_gif')
+            return await nekoslifeapi(ctx, f'{urls[randint(0, 1)]}')
         else:
             message = await ctx.reply("Эту команду можно искользовать только в NSFW-каналах")
             if ctx.message.channel.guild.me.guild_permissions.manage_messages:
@@ -125,18 +124,6 @@ class Hentai(commands.Cog):
                 await ctx.message.delete()
                 await message.delete()
 
-    @commands.command()
-    @commands.is_nsfw()
-    async def tits(self, ctx):
-        """ Random anime tits """
-        if ctx.channel.type is discord.ChannelType.private or ctx.channel.is_nsfw():
-            return await nekoslifeapi(ctx, 'https://nekos.life/api/v2/img/tits')
-        else:
-            message = await ctx.reply("Эту команду можно искользовать только в NSFW-каналах")
-            if ctx.message.channel.guild.me.guild_permissions.manage_messages:
-                await asyncio.sleep(10)
-                await ctx.message.delete()
-                await message.delete()
 
     @commands.command()
     @commands.is_nsfw()
