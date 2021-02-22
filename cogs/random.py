@@ -84,7 +84,7 @@ class Random(commands.Cog):
     @commands.command(aliases=["нсфв"])
     async def nsfw(self, ctx):
         """Постит случайную картинку с r/nsfw"""
-        if ctx.channel.is_nsfw() or ctx.channel.type is discord.ChannelType.private:
+        if ctx.channel.type is discord.ChannelType.private or ctx.channel.is_nsfw():
             async with aiohttp.ClientSession(headers=header) as cs:
                 async with cs.get('https://www.reddit.com/r/nsfw/new.json?sort=hot') as res:
                     r = await res.json()
