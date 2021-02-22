@@ -67,9 +67,9 @@ class Random(commands.Cog):
 
     @commands.command(aliases=["мем"])
     async def meme(self, ctx):
-        """Постит случайную картинку с r/memes"""
+        """Постим мемы с r/dankmemes"""
         async with aiohttp.ClientSession(headers=header) as cs:
-            async with cs.get('https://www.reddit.com/r/memes/new.json?sort=hot') as res:
+            async with cs.get('https://www.reddit.com/r/dankmemes/hot.json?sort=hot') as res:
                 r = await res.json()
                 url = r['data']['children'][randint(0, 25)]['data']['url']
                 if url.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.webp')):
