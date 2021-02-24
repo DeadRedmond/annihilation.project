@@ -8,7 +8,7 @@ class EGS(commands.Cog):
         self.bot = bot
 
 
-    @commands.command(aliases=['егс'])
+    @commands.command(aliases=['егс', "халява", "игры", 'games'])
     async def egs(self, ctx):
         '''
         Получить еженедельную халяву из EGS
