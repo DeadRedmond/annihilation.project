@@ -45,7 +45,7 @@ class Search(commands.Cog):
                     await ctx.send(f'{ctx.message.author.mention}, вот что мне удалось найти:', embed=em)
 
 
-    @commands.command(aliases = ['image', 'img', 'картинка'])
+    @commands.command(aliases = ['image', 'img', 'pic', 'картинка'])
     async def i(self, ctx, *, query):
         """Поиск картинок в Гугле"""
 
