@@ -49,8 +49,9 @@ async def freegames(ctx):
                 result = json.loads(await resp.text())
                 await ctx.send("Сейчас в раздаче следующие игры:")
                 for item in result['data']['Catalog']['searchStore']['elements']:
-                    effectiveDate = datetime.strptime(item['effectiveDate'], '%Y-%m-%dT%H:%M:%S.%fZ')
-                    if now > effectiveDate and now < effectiveDate+timedelta(days=7):
+                    startDate = datetime.strptime(item['promotions']['upcomingPromotionalOffers']["promotionalOffers"]['startDate'], '%Y-%m-%dT%H:%M:%S.%fZ')
+                    endDate = datetime.strptime(item['promotions']['upcomingPromotionalOffers']["promotionalOffers"]['endDate'], '%Y-%m-%dT%H:%M:%S.%fZ')
+                    if now > startDate and now < endDate:
                         em = discord.Embed(title=item['title'], url=f"https://www.epicgames.com/store/ru/product/{item['productSlug']}/home",  description=item['description'], color=0xa0cfe5)
                         em.set_thumbnail(url=item['keyImages'][2]['url'])
                         em.description
