@@ -55,6 +55,6 @@ async def freegames(ctx):
                         em = discord.Embed(title=item['title'], url=f"https://www.epicgames.com/store/ru/product/{item['productSlug']}/home",  description=item['description'], color=0xa0cfe5)
                         em.set_thumbnail(url=item['keyImages'][2]['url'])
                         em.description
-                        await ctx.send("", embed=em)
+                        await ctx.send("test", embed=em)
                     else:
                         continue
