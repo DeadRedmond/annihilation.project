@@ -2,7 +2,7 @@ import aiohttp
 import json
 import discord
 from datetime import datetime, timedelta
-
+from urllib.parse import quote
 
 
 header = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36'}
@@ -52,7 +52,7 @@ async def freegames(ctx):
                     startDate = datetime.strptime(item['promotions']['promotionalOffers'][0]['promotionalOffers'][0]['startDate'], '%Y-%m-%dT%H:%M:%S.%fZ')
                     endDate = datetime.strptime(item['promotions']['promotionalOffers'][0]['promotionalOffers'][0]['endDate'], '%Y-%m-%dT%H:%M:%S.%fZ')
                     if now > startDate and now < endDate:
-                        em = discord.Embed(title=item['title'], url=f"https://www.epicgames.com/store/ru/product/{item['productSlug']}/home",  description=item['description'], color=0xa0cfe5)
+                        em = discord.Embed(title=item['title'], url=f"https://www.epicgames.com/store/ru/product/{quote(item['productSlug'])}/home",  description=item['description'], color=0xa0cfe5)
                         em.set_thumbnail(url=item['keyImages'][2]['url'])
                         em.description
                         await ctx.send("test", embed=em)
