@@ -1,4 +1,5 @@
 /.vscode
 **/*.test.py
 todo.txt
+settings.ini
 __pycache__
