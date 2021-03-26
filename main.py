@@ -4,11 +4,12 @@ import discord
 from discord.ext import commands
 from pretty_help import PrettyHelp
 
+from settings import token
+
 bot = commands.Bot(command_prefix=".", help_command=PrettyHelp(
     active_time=60,
     color=0xa0cfe5))
 
-token = os.getenv("BOT_TOKEN")
 
 #enable cogs
 for extension in os.listdir("cogs"):

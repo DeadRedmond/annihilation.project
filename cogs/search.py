@@ -1,5 +1,5 @@
 #import
-import os
+import os, sys
 import requests
 import aiohttp
 import urllib.parse
@@ -9,8 +9,11 @@ import random
 from discord.ext import commands
 from bs4 import BeautifulSoup
 
-google_api_key = os.getenv("SEARCH_API")
-custom_search_engine = os.getenv("SEARCH_ENGINE")
+sys.path.append(os.path.dirname(os.path.realpath(__file__)))
+from settings import google_api_key, custom_search_engine
+
+#google_api_key = os.getenv("SEARCH_API")
+#custom_search_engine = os.getenv("SEARCH_ENGINE")
 
 class Search(commands.Cog):
     'Поиск в интернете'
