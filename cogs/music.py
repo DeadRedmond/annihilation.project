@@ -108,18 +108,6 @@ async def is_audio_requester(ctx):
         raise commands.CommandError(
             "Для этой команды необходимо быть заказчиком")
 
-def _queue_text(self, queue):
-        """Возвращает текущую композицию."""
-        if len(queue) > 0:
-            message = [f"{len(queue)} треков в очереди:"]
-            message += [
-                f"  {index+1}. **{song.title}** (заказан **{song.requested_by.name}**)"
-                for (index, song) in enumerate(queue)
-            ]  # add individual songs
-            return "\n".join(message)
-        else:
-            return "Очередь воспроизведения пустая."
-
 
 class Music(commands.Cog):
     "Музыка! :musical_note: "
@@ -137,7 +125,7 @@ class Music(commands.Cog):
         return self.states[guild.id]
     
     def _queue_text(self, queue):
-        """Возвращает текущую композицию."""
+        """Возвращает очередь воспроизведения."""
         if len(queue) > 0:
             message = [f"{len(queue)} треков в очереди:"]
             message += [
@@ -263,9 +251,26 @@ class Music(commands.Cog):
     @commands.check(audio_playing)
     @commands.has_permissions(administrator=True)
     async def clearqueue(self, ctx):
-        """Clears the play queue without leaving the channel."""
+        """Очищает очередь воспроизведения."""
         state = self.get_state(ctx.guild)
         state.playlist = []
+        await ctx.send("Очередь воспроизведения очищена")
+
+    @commands.command(aliases=["rq"])
+    @commands.guild_only()
+    @commands.check(audio_playing)
+    async def removefromqueue(self, ctx, position=0):
+        """Удалить трек из очереди по номеру."""
+        state = self.get_state(ctx.guild)
+        if position <= 0 or position > len(state.playlist):
+            await ctx.send("Необходимо выбрать правильную позицию в очереди")
+        else:
+            position-=1
+            if ctx.channel.permissions_for(ctx.author).administrator or state.playlist[position].requested_by.name == ctx.author:
+                del state.playlist[position-1]
+            else:
+                await ctx.send("У вас нет прав удалить этот трек из очереди")
+
 
     @commands.command(aliases=["stop"])
     @commands.guild_only()
