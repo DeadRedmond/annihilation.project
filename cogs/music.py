@@ -188,7 +188,7 @@ class Music(commands.Cog):
             try:
                 video = Video(url, ctx.author)
             except ytdl.DownloadError as e:
-                await ctx.send("There was an error downloading your video, sorry.")
+                await ctx.send("Ошибка загрузки.")
                 return
             state.playlist.append(video)
             #await ctx.send("Added to queue.", embed=video.get_embed())
@@ -199,11 +199,12 @@ class Music(commands.Cog):
                 try:
                     video = Video(url, ctx.author)
                 except ytdl.DownloadError as e:
-                    await ctx.send("There was an error downloading your video, sorry.")
+                    await ctx.send("Ошибка загрузки.")
                     return
                 client = await channel.connect()
                 self._play_song(client, state, video)
-                await ctx.send("", embed=video.get_embed())
+                #await ctx.send("Added to queue.", embed=video.get_embed())
+                await ctx.send("Added to queue.") #не выводим embed
             else:
                 raise commands.CommandError("You need to be in a voice channel to do that.")
             
