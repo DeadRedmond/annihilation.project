@@ -7,6 +7,7 @@ from enum import Enum
 from discord.ext import commands
 import discord
 import youtube_dl as ytdl
+from math import ceil as ceil
 
 
 
@@ -78,16 +79,6 @@ class Video:
         return embed
 
 
-class VoiceError(Exception):
-    pass
-
-
-class YTDLError(Exception):
-    pass
-
-
-
-
 async def audio_playing(ctx):
     """Checks that audio is currently playing before continuing."""
     client = ctx.guild.voice_client
@@ -117,6 +108,17 @@ async def is_audio_requester(ctx):
         raise commands.CommandError(
             "Для этой команды необходимо быть заказчиком")
 
+def _queue_text(self, queue):
+        """Возвращает текущую композицию."""
+        if len(queue) > 0:
+            message = [f"{len(queue)} треков в очереди:"]
+            message += [
+                f"  {index+1}. **{song.title}** (заказан **{song.requested_by.name}**)"
+                for (index, song) in enumerate(queue)
+            ]  # add individual songs
+            return "\n".join(message)
+        else:
+            return "Очередь воспроизведения пустая."
 
 
 class Music(commands.Cog):
@@ -127,13 +129,24 @@ class Music(commands.Cog):
         self.states = {}
 
     def get_state(self, guild):
-            """Gets the state for `guild`, creating it if it does not exist."""
-            if guild.id in self.states:
-                return self.states[guild.id]
-            else:
-                self.states[guild.id] = GuildState()
-                return self.states[guild.id]
-       
+        """Gets the state for `guild`, creating it if it does not exist."""
+        if guild.id in self.states:
+            return self.states[guild.id]
+        else:
+            self.states[guild.id] = GuildState()
+        return self.states[guild.id]
+    
+    def _queue_text(self, queue):
+        """Возвращает текущую композицию."""
+        if len(queue) > 0:
+            message = [f"{len(queue)} треков в очереди:"]
+            message += [
+                f"  {index+1}. **{song.title}** (заказан **{song.requested_by.name}**)"
+                for (index, song) in enumerate(queue)
+            ]  # add individual songs
+            return "\n".join(message)
+        else:
+            return "Очередь воспроизведения пустая."
         
     def _play_song(self, client, state, song):
         state.now_playing = song
@@ -156,6 +169,14 @@ class Music(commands.Cog):
         else:
             client.pause()
 
+    def _vote_skip(self, channel, member):
+        """Register a vote for `member` to skip the song playing."""
+        state = self.get_state(channel.guild)
+        state.skip_votes.add(member)
+        users_in_channel = len([member for member in channel.members if not member.bot])  # don't count bots
+        if (float(len(state.skip_votes)) / users_in_channel) >= 0.5:
+            # enough members have voted to skip, so skip the song
+            channel.guild.voice_client.stop()
 
     @commands.command(brief="Играть музыку с указанного <url>.")
     @commands.guild_only()
@@ -170,8 +191,8 @@ class Music(commands.Cog):
                 await ctx.send("There was an error downloading your video, sorry.")
                 return
             state.playlist.append(video)
-            await ctx.send("Added to queue.", embed=video.get_embed())
-        
+            #await ctx.send("Added to queue.", embed=video.get_embed())
+            await ctx.send("Added to queue.") #не выводим embed
         else:
             if ctx.author.voice is not None and ctx.author.voice.channel is not None:
                 channel = ctx.author.voice.channel
@@ -196,8 +217,54 @@ class Music(commands.Cog):
         client = ctx.guild.voice_client
         self._pause_audio(client)
 
-    
+    @commands.command()
+    @commands.guild_only()
+    @commands.check(audio_playing)
+    @commands.check(in_voice_channel)
+    async def skip(self, ctx):
+        """Пропустить текущий трек"""
+        state = self.get_state(ctx.guild)
+        client = ctx.guild.voice_client
+        if ctx.channel.permissions_for(
+                ctx.author).administrator or state.is_requester(ctx.author):
+            # immediately skip if requester or admin
+            client.stop()
 
+        else:
+            # vote to skip song
+            channel = client.channel
+            self._vote_skip(channel, ctx.author)
+            # announce vote
+            users_in_channel = len([
+                member for member in channel.members if not member.bot
+            ])  # don't count bots
+            required_votes = ceil(0.5 * users_in_channel)
+            await ctx.send(f"{ctx.author.mention} voted to skip ({len(state.skip_votes)}/{required_votes} votes)")
+
+    @commands.command()
+    @commands.guild_only()
+    @commands.check(audio_playing)
+    async def np(self, ctx):
+        """Выводит текущую композицию."""
+        state = self.get_state(ctx.guild)
+        await ctx.send("", embed=state.now_playing.get_embed())
+
+    @commands.command(aliases=["q", "playlist"])
+    @commands.guild_only()
+    @commands.check(audio_playing)
+    async def queue(self, ctx):
+        """Выводит очередь."""
+        state = self.get_state(ctx.guild)
+        await ctx.send(self._queue_text(state.playlist))
+
+    @commands.command(aliases=["cq"])
+    @commands.guild_only()
+    @commands.check(audio_playing)
+    @commands.has_permissions(administrator=True)
+    async def clearqueue(self, ctx):
+        """Clears the play queue without leaving the channel."""
+        state = self.get_state(ctx.guild)
+        state.playlist = []
 
     @commands.command(aliases=["stop"])
     @commands.guild_only()
@@ -212,6 +279,8 @@ class Music(commands.Cog):
             state.now_playing = None
         else:
             raise commands.CommandError("Не в голосовом команде")
+
+    
 
 
 
