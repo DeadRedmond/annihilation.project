@@ -122,7 +122,7 @@ async def is_audio_requester(ctx):
 class Radio(commands.Cog):
     "Музыка! :musical_note: "
 
-    def __init__(self, bot, config):
+    def __init__(self, bot):
         self.bot = bot
         self.states = {}
 
