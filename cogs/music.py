@@ -267,7 +267,8 @@ class Music(commands.Cog):
         else:
             position-=1
             if ctx.channel.permissions_for(ctx.author).administrator or state.playlist[position].requested_by.name == ctx.author:
-                del state.playlist[position-1]
+                del state.playlist[position]
+                await ctx.send("Удалено!")
             else:
                 await ctx.send("У вас нет прав удалить этот трек из очереди")
 
