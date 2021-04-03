@@ -139,8 +139,7 @@ class Music(commands.Cog):
     def _play_song(self, client, state, song):
         state.now_playing = song
         state.skip_votes = set()  # clear skip votes
-        source = discord.PCMVolumeTransformer(
-            discord.FFmpegPCMAudio(song.stream_url))
+        source = discord.FFmpegPCMAudio(song.stream_url, before_options="-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5")
 
         def after_playing(err):
             if len(state.playlist) > 0:
@@ -158,7 +157,7 @@ class Music(commands.Cog):
             client.pause()
 
     def _vote_skip(self, channel, member):
-        """Register a vote for `member` to skip the song playing."""
+        """Регистрирование голосов за пропуск трека."""
         state = self.get_state(channel.guild)
         state.skip_votes.add(member)
         users_in_channel = len([member for member in channel.members if not member.bot])  # don't count bots
@@ -180,7 +179,7 @@ class Music(commands.Cog):
                 return
             state.playlist.append(video)
             #await ctx.send("Added to queue.", embed=video.get_embed())
-            await ctx.send("Added to queue.") #не выводим embed
+            await ctx.send("Добавлено в очередь.") #не выводим embed
         else:
             if ctx.author.voice is not None and ctx.author.voice.channel is not None:
                 channel = ctx.author.voice.channel
@@ -192,9 +191,9 @@ class Music(commands.Cog):
                 client = await channel.connect()
                 self._play_song(client, state, video)
                 #await ctx.send("Added to queue.", embed=video.get_embed())
-                await ctx.send("Added to queue.") #не выводим embed
+                await ctx.send("Добавлено в очередь.") #не выводим embed
             else:
-                raise commands.CommandError("You need to be in a voice channel to do that.")
+                raise commands.CommandError("Необходимо быть в голосовом канале.")
             
     @commands.command(aliases=["resume", "p"])
     @commands.guild_only()
@@ -202,7 +201,7 @@ class Music(commands.Cog):
     @commands.check(in_voice_channel)
     @commands.check(is_audio_requester)
     async def pause(self, ctx):
-        """Pauses any currently playing audio."""
+        """Приостанавливает воспроизведение трека"""
         client = ctx.guild.voice_client
         self._pause_audio(client)
 
