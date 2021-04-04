@@ -5,7 +5,6 @@ from discord.ext import commands
 from pretty_help import PrettyHelp
 
 from settings import token, google_api_key, custom_search_engine
-print(f'token: {token}\napi: {google_api_key}\nengine: {custom_search_engine}')
 
 bot = commands.Bot(command_prefix=".", help_command=PrettyHelp(
     active_time=60,
@@ -25,7 +24,6 @@ for extension in os.listdir("cogs"):
 async def on_ready():
     await bot.change_presence(status = discord.Status.online, activity = discord.Game(".help"))
     print("Online!")
-
 
 #bot run
 bot.run(token)
