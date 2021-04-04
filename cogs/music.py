@@ -10,10 +10,6 @@ import youtube_dl as ytdl
 from math import ceil as ceil
 
 
-
-
-URL_REGEX = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"
-
 YTDL_config = {
     "default_search": "ytsearch",
     "format": "bestaudio/best",
@@ -40,6 +36,7 @@ class GuildState:
 
     def is_requester(self, user):
         return self.now_playing.requested_by == user
+
 
 class Video:
     """Class containing information about a particular video."""
@@ -139,7 +136,7 @@ class Music(commands.Cog):
     def _play_song(self, client, state, song):
         state.now_playing = song
         state.skip_votes = set()  # clear skip votes
-        source = discord.FFmpegPCMAudio(song.stream_url, before_options="-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5")
+        source = discord.FFmpegPCMAudio(song.stream_url, before_options=FFMPEG_OPTIONS['before_options'], options=FFMPEG_OPTIONS['options'])
 
         def after_playing(err):
             if len(state.playlist) > 0:
@@ -148,7 +145,6 @@ class Music(commands.Cog):
             else:
                 asyncio.run_coroutine_threadsafe(client.disconnect(), self.bot.loop)
         client.play(source, after=after_playing)
-
 
     def _pause_audio(self, client):
         if client.is_paused():
@@ -179,7 +175,7 @@ class Music(commands.Cog):
                 return
             state.playlist.append(video)
             #await ctx.send("Added to queue.", embed=video.get_embed())
-            await ctx.send("Добавлено в очередь.") #не выводим embed
+            await ctx.send("Добавлено в очередь.", delete_after=15) #не выводим embed
         else:
             if ctx.author.voice is not None and ctx.author.voice.channel is not None:
                 channel = ctx.author.voice.channel
@@ -191,7 +187,7 @@ class Music(commands.Cog):
                 client = await channel.connect()
                 self._play_song(client, state, video)
                 #await ctx.send("Added to queue.", embed=video.get_embed())
-                await ctx.send("Добавлено в очередь.") #не выводим embed
+                await ctx.send("Добавлено в очередь.", delete_after=15) #не выводим embed
             else:
                 raise commands.CommandError("Необходимо быть в голосовом канале.")
             
@@ -235,7 +231,7 @@ class Music(commands.Cog):
     async def np(self, ctx):
         """Выводит текущую композицию."""
         state = self.get_state(ctx.guild)
-        await ctx.send("", embed=state.now_playing.get_embed())
+        await ctx.send("", embed=state.now_playing.get_embed(), delete_after=60)
 
     @commands.command(aliases=["q", "playlist"])
     @commands.guild_only()
@@ -243,7 +239,7 @@ class Music(commands.Cog):
     async def queue(self, ctx):
         """Выводит очередь."""
         state = self.get_state(ctx.guild)
-        await ctx.send(self._queue_text(state.playlist))
+        await ctx.send(self._queue_text(state.playlist), delete_after=60)
 
     @commands.command(aliases=["cq"])
     @commands.guild_only()
@@ -253,7 +249,7 @@ class Music(commands.Cog):
         """Очищает очередь воспроизведения."""
         state = self.get_state(ctx.guild)
         state.playlist = []
-        await ctx.send("Очередь воспроизведения очищена")
+        await ctx.send("Очередь воспроизведения очищена", delete_after=15)
 
     @commands.command(aliases=["rq"])
     @commands.guild_only()
@@ -262,15 +258,14 @@ class Music(commands.Cog):
         """Удалить трек из очереди по номеру."""
         state = self.get_state(ctx.guild)
         if position <= 0 or position > len(state.playlist):
-            await ctx.send("Необходимо выбрать правильную позицию в очереди")
+            await ctx.send("Необходимо выбрать правильную позицию в очереди", delete_after=15)
         else:
             position-=1
             if ctx.channel.permissions_for(ctx.author).administrator or state.playlist[position].requested_by.name == ctx.author:
                 del state.playlist[position]
-                await ctx.send("Удалено!")
+                await ctx.send("Удалено!", delete_after=15)
             else:
-                await ctx.send("У вас нет прав удалить этот трек из очереди")
-
+                await ctx.send("У вас нет прав удалить этот трек из очереди", delete_after=15)
 
     @commands.command(aliases=["stop"])
     @commands.guild_only()
@@ -284,12 +279,9 @@ class Music(commands.Cog):
             state.playlist = []
             state.now_playing = None
         else:
-            raise commands.CommandError("Не в голосовом команде")
+            raise commands.CommandError("Не в голосовом чате")
 
     
-
-
-
 #setup function
 def setup(bot):
     bot.add_cog(Music(bot))
