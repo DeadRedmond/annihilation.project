@@ -273,11 +273,7 @@ class Music(commands.Cog):
             await ctx.send("Необходимо выбрать правильную позицию в очереди", delete_after=20)
         else:
             position-=1
-            print(f'requested: {state.playlist[position].requested_by}')
-            print(f'ctx.author: {ctx.author}')
-
-            #state.playlist[position].requested_by.name == ctx.author:
-            if ctx.channel.permissions_for(ctx.author).administrator or state.playlist[position].is_requester(ctx.author):
+            if ctx.channel.permissions_for(ctx.author).administrator or state.playlist[position].requested_by == ctx.author:
                 del state.playlist[position]
                 await ctx.send("Удалено!", delete_after=20)
 
