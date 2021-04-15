@@ -7,7 +7,7 @@ from pretty_help import PrettyHelp
 from settings import token, google_api_key, custom_search_engine
 
 bot = commands.Bot(command_prefix=".", help_command=PrettyHelp(
-    active_time=60,
+    active_time=120,
     color=0xa0cfe5))
 
 
