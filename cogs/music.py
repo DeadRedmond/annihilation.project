@@ -175,7 +175,7 @@ class Music(commands.Cog):
                 return
             state.playlist.append(video)
             #await ctx.send("Added to queue.", embed=video.get_embed())
-            await ctx.send("Добавлено в очередь.", delete_after=15) #не выводим embed
+            await ctx.send("Добавлено в очередь.", delete_after=20) #не выводим embed
         else:
             if ctx.author.voice is not None and ctx.author.voice.channel is not None:
                 channel = ctx.author.voice.channel
@@ -187,7 +187,7 @@ class Music(commands.Cog):
                 client = await channel.connect()
                 self._play_song(client, state, video)
                 #await ctx.send("Added to queue.", embed=video.get_embed())
-                await ctx.send("Добавлено в очередь.", delete_after=15) #не выводим embed
+                await ctx.send("Добавлено в очередь.", delete_after=20) #не выводим embed
             else:
                 raise commands.CommandError("Необходимо быть в голосовом канале.")
             
@@ -200,6 +200,8 @@ class Music(commands.Cog):
         """Приостанавливает воспроизведение трека"""
         client = ctx.guild.voice_client
         self._pause_audio(client)
+        if ctx.message.channel.guild.me.guild_permissions.manage_messages:
+            await ctx.message.delete()
 
     @commands.command()
     @commands.guild_only()
@@ -209,11 +211,9 @@ class Music(commands.Cog):
         """Пропустить текущий трек"""
         state = self.get_state(ctx.guild)
         client = ctx.guild.voice_client
-        if ctx.channel.permissions_for(
-                ctx.author).administrator or state.is_requester(ctx.author):
+        if ctx.channel.permissions_for(ctx.author).administrator or state.is_requester(ctx.author):
             # immediately skip if requester or admin
             client.stop()
-
         else:
             # vote to skip song
             channel = client.channel
@@ -224,6 +224,11 @@ class Music(commands.Cog):
             ])  # don't count bots
             required_votes = ceil(0.5 * users_in_channel)
             await ctx.send(f"{ctx.author.mention} voted to skip ({len(state.skip_votes)}/{required_votes} votes)")
+        
+        if ctx.message.channel.guild.me.guild_permissions.manage_messages:
+            await asyncio.sleep(30)
+            await ctx.message.delete()
+        
 
     @commands.command()
     @commands.guild_only()
@@ -231,7 +236,9 @@ class Music(commands.Cog):
     async def np(self, ctx):
         """Выводит текущую композицию."""
         state = self.get_state(ctx.guild)
-        await ctx.send("", embed=state.now_playing.get_embed(), delete_after=60)
+        await ctx.send("", embed=state.now_playing.get_embed(), delete_after=90)
+        if ctx.message.channel.guild.me.guild_permissions.manage_messages:
+            await ctx.message.delete()
 
     @commands.command(aliases=["q", "playlist"])
     @commands.guild_only()
@@ -239,7 +246,9 @@ class Music(commands.Cog):
     async def queue(self, ctx):
         """Выводит очередь."""
         state = self.get_state(ctx.guild)
-        await ctx.send(self._queue_text(state.playlist), delete_after=60)
+        await ctx.send(self._queue_text(state.playlist), delete_after=90)
+        if ctx.message.channel.guild.me.guild_permissions.manage_messages:
+            await ctx.message.delete()
 
     @commands.command(aliases=["cq"])
     @commands.guild_only()
@@ -249,7 +258,10 @@ class Music(commands.Cog):
         """Очищает очередь воспроизведения."""
         state = self.get_state(ctx.guild)
         state.playlist = []
-        await ctx.send("Очередь воспроизведения очищена", delete_after=15)
+        await ctx.send("Очередь воспроизведения очищена", delete_after=20)
+        if ctx.message.channel.guild.me.guild_permissions.manage_messages:
+            await ctx.message.delete()
+
 
     @commands.command(aliases=["rq"])
     @commands.guild_only()
@@ -258,14 +270,18 @@ class Music(commands.Cog):
         """Удалить трек из очереди по номеру."""
         state = self.get_state(ctx.guild)
         if position <= 0 or position > len(state.playlist):
-            await ctx.send("Необходимо выбрать правильную позицию в очереди", delete_after=15)
+            await ctx.send("Необходимо выбрать правильную позицию в очереди", delete_after=20)
         else:
             position-=1
-            if ctx.channel.permissions_for(ctx.author).administrator or state.playlist[position].requested_by.name == ctx.author:
+            if ctx.channel.permissions_for(ctx.author).administrator or state.playlist[position].is_requester(ctx.author):
                 del state.playlist[position]
-                await ctx.send("Удалено!", delete_after=15)
+                await ctx.send("Удалено!", delete_after=20)
+
             else:
-                await ctx.send("У вас нет прав удалить этот трек из очереди", delete_after=15)
+                await ctx.send("У вас нет прав удалить этот трек из очереди", delete_after=20)
+
+        if ctx.message.channel.guild.me.guild_permissions.manage_messages:
+            await ctx.message.delete()
 
     @commands.command(aliases=["stop"])
     @commands.guild_only()
@@ -280,6 +296,10 @@ class Music(commands.Cog):
             state.now_playing = None
         else:
             raise commands.CommandError("Не в голосовом чате")
+
+        if ctx.message.channel.guild.me.guild_permissions.manage_messages:
+            await asyncio.sleep(10)
+            await ctx.message.delete()
 
     
 #setup function
