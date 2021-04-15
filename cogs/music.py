@@ -238,6 +238,7 @@ class Music(commands.Cog):
         state = self.get_state(ctx.guild)
         await ctx.send("", embed=state.now_playing.get_embed(), delete_after=90)
         if ctx.message.channel.guild.me.guild_permissions.manage_messages:
+            await asyncio.sleep(10)
             await ctx.message.delete()
 
     @commands.command(aliases=["q", "playlist"])
@@ -248,6 +249,7 @@ class Music(commands.Cog):
         state = self.get_state(ctx.guild)
         await ctx.send(self._queue_text(state.playlist), delete_after=90)
         if ctx.message.channel.guild.me.guild_permissions.manage_messages:
+            await asyncio.sleep(10)
             await ctx.message.delete()
 
     @commands.command(aliases=["cq"])
@@ -260,6 +262,7 @@ class Music(commands.Cog):
         state.playlist = []
         await ctx.send("Очередь воспроизведения очищена", delete_after=20)
         if ctx.message.channel.guild.me.guild_permissions.manage_messages:
+            await asyncio.sleep(10)
             await ctx.message.delete()
 
 
@@ -281,6 +284,7 @@ class Music(commands.Cog):
                 await ctx.send("У вас нет прав удалить этот трек из очереди", delete_after=20)
 
         if ctx.message.channel.guild.me.guild_permissions.manage_messages:
+            await asyncio.sleep(10)
             await ctx.message.delete()
 
     @commands.command(aliases=["stop"])
