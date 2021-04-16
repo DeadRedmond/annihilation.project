@@ -49,6 +49,8 @@ async def freegames(ctx):
                 result = json.loads(await resp.text())
                 await ctx.send("Сейчас в раздаче следующие игры:")
                 for item in result['data']['Catalog']['searchStore']['elements']:
+                    if item['promotions']==None:
+                        continue
                     startDate = datetime.strptime(item['promotions']['promotionalOffers'][0]['promotionalOffers'][0]['startDate'], '%Y-%m-%dT%H:%M:%S.%fZ')
                     endDate = datetime.strptime(item['promotions']['promotionalOffers'][0]['promotionalOffers'][0]['endDate'], '%Y-%m-%dT%H:%M:%S.%fZ')
                     if now > startDate and now < endDate:

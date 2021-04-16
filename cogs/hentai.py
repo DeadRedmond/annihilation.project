@@ -3,9 +3,7 @@ import asyncio
 import discord
 from discord.ext import commands
 from random import randint
-
-from cogs.utils.http import nekoslifeapi, header
-
+from utils.http import nekoslifeapi, header
 
 class Hentai(commands.Cog):
     '''
@@ -96,7 +94,6 @@ class Hentai(commands.Cog):
                 await ctx.message.delete()
                 await message.delete()
     
-
     @commands.command()
     @commands.is_nsfw()
     async def pwankg(self, ctx):
@@ -123,7 +120,6 @@ class Hentai(commands.Cog):
                 await ctx.message.delete()
                 await message.delete()
 
-
     @commands.command()
     @commands.is_nsfw()
     async def trap(self, ctx):
@@ -136,8 +132,6 @@ class Hentai(commands.Cog):
                 await asyncio.sleep(10)
                 await ctx.message.delete()
                 await message.delete()
-
-
 
 
 #setup function
