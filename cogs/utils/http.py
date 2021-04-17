@@ -51,6 +51,8 @@ async def freegames(ctx):
                 for item in result['data']['Catalog']['searchStore']['elements']:
                     if item['promotions']==None:
                         continue
+                    elif item['promotions']['promotionalOffers'] == []:
+                        continue
                     else:
                         startDate = datetime.strptime(item['promotions']['promotionalOffers'][0]['promotionalOffers'][0]['startDate'], '%Y-%m-%dT%H:%M:%S.%fZ')
                         endDate = datetime.strptime(item['promotions']['promotionalOffers'][0]['promotionalOffers'][0]['endDate'], '%Y-%m-%dT%H:%M:%S.%fZ')
