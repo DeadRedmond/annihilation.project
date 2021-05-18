@@ -1,13 +1,14 @@
 #import
 import asyncio
+import aiohttp
 import discord
 from discord.ext import commands
 from random import randint
 from utils.http import nekoslifeapi, header
 
-class Hentai(commands.Cog):
+class NSFW(commands.Cog):
     '''
-    Хентай, только для NSFW-каналов!
+    Только для NSFW-каналов!
     '''
 
     def __init__(self, bot):
@@ -133,7 +134,30 @@ class Hentai(commands.Cog):
                 await ctx.message.delete()
                 await message.delete()
 
+    @commands.is_nsfw()
+    @commands.command(aliases=["нсфв"])
+    async def nsfw(self, ctx):
+        """Постит случайную картинку с r/nsfw"""
+        if ctx.channel.type is discord.ChannelType.private or ctx.channel.is_nsfw():
+            async with aiohttp.ClientSession(headers=header) as cs:
+                async with cs.get('https://www.reddit.com/r/nsfw/new.json?sort=hot') as res:
+                    r = await res.json()
+                    url = r['data']['children'][randint(0, 25)]['data']['url']
+                    if url.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.webp')):
+                        em = discord.Embed(color=0xa0cfe5)
+                        em.set_image(url=url)
+                        await ctx.send("", embed=em)
+                    else:
+                        await ctx.send(url)
+        else:
+            message = await ctx.reply("Эту команду можно искользовать только в NSFW-каналах")
+            if ctx.message.channel.guild.me.guild_permissions.manage_messages:
+                await asyncio.sleep(10)
+                await ctx.message.delete()
+                await message.delete()
+
+
 
 #setup function
 def setup(bot):
-    bot.add_cog(Hentai(bot))
+    bot.add_cog(NSFW(bot))
