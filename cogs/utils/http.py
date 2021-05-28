@@ -58,11 +58,10 @@ async def freegames(ctx):
                         endDate = datetime.strptime(item['promotions']['promotionalOffers'][0]['promotionalOffers'][0]['endDate'], '%Y-%m-%dT%H:%M:%S.%fZ')
                         if now > startDate and now < endDate:
                             em = discord.Embed(title=item['title'], url=f"https://www.epicgames.com/store/ru/product/{quote(item['productSlug'])}/home",  description=item['description'], color=0xa0cfe5)
-                            #em.set_thumbnail(url=quote(item['keyImages'][2]['url'], safe='http://'))
                             em.set_image(url=quote(item['keyImages'][2]['url'], safe='http://'))
 
-                            em.add_field(name="Начало:", value=startDate, inline=True)
-                            em.add_field(name="Конец:", value=endDate, inline=True)
+                            em.add_field(name="Начало:", value=startDate.strftime("%m/%d/%Y, %H:%M:%S"), inline=True)
+                            em.add_field(name="Конец:", value=endDate.strftime("%m/%d/%Y, %H:%M:%S"), inline=True)
 
                             #em.description
                             await ctx.send("", embed=em)
