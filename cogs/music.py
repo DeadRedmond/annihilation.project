@@ -143,7 +143,12 @@ class Music(commands.Cog):
                 next_song = state.playlist.pop(0)
                 self._play_song(client, state, next_song)
             else:
-                asyncio.run_coroutine_threadsafe(client.disconnect(), self.bot.loop)
+                while True:
+                    await asyncio.sleep(60)
+                    if client.is_playing() == False:
+                        asyncio.run_coroutine_threadsafe(client.disconnect(), self.bot.loop)
+                        break    
+        
         client.play(source, after=after_playing)
 
     def _pause_audio(self, client):
