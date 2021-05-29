@@ -144,7 +144,7 @@ class Music(commands.Cog):
                 self._play_song(client, state, next_song)
             else:
                 while True:
-                    await asyncio.sleep(60)
+                    asyncio.sleep(60)
                     if client.is_playing() == False:
                         asyncio.run_coroutine_threadsafe(client.disconnect(), self.bot.loop)
                         break    
