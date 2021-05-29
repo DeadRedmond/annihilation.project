@@ -8,7 +8,6 @@ from discord.ext import commands
 import discord
 import youtube_dl as ytdl
 from math import ceil as ceil
-from time import sleep
 
 
 YTDL_config = {
@@ -144,9 +143,7 @@ class Music(commands.Cog):
                 next_song = state.playlist.pop(0)
                 self._play_song(client, state, next_song)
             else:
-                sleep(60)
-                if client.is_playing() == False:
-                    asyncio.run_coroutine_threadsafe(client.disconnect(), self.bot.loop)
+                asyncio.run_coroutine_threadsafe(client.disconnect(), self.bot.loop)
         client.play(source, after=after_playing)
 
     def _pause_audio(self, client):
