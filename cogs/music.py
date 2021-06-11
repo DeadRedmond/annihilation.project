@@ -45,7 +45,7 @@ class Video:
     def __init__(self, url_or_search, requested_by):
         """Plays audio from (or searches for) a URL."""
         with ytdl.YoutubeDL(YTDL_config) as ydl:
-            video = self._get_info(url_or_search, download=False)
+            video = self._get_info(url_or_search)
             video_format = video["formats"][0]
             self.stream_url = video_format["url"]
             self.video_url = video["webpage_url"]
