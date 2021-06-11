@@ -9,21 +9,23 @@ import discord
 import youtube_dl as ytdl
 from math import ceil as ceil
 
+# Silence useless bug reports messages
+ytdl.utils.bug_reports_message = lambda: ''
 
 YTDL_config = {
     "default_search": "ytsearch",
     "format": "bestaudio/best",
     "quiet": True,
-    "extract_flat": "in_playlist"
+    "nocheckcertificate": True,
+    "no_warnings": True,
+    "noplaylist": False,
+    #"extract_flat": "in_playlist",
 }
 
 FFMPEG_OPTIONS = {
-        'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
-        'options': '-vn',
-    }
-
-# Silence useless bug reports messages
-ytdl.utils.bug_reports_message = lambda: ''
+    'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
+    'options': '-vn',
+}
 
 
 class GuildState:
