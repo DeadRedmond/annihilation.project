@@ -18,12 +18,11 @@ YTDL_config = {
     "quiet": True,
     "nocheckcertificate": True,
     "no_warnings": True,
-    "noplaylist": False,
-    #"extract_flat": "in_playlist",
+    "extract_flat": "in_playlist",
 }
 
 FFMPEG_OPTIONS = {
-    'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
+    'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5 -nostdin',
     'options': '-vn',
 }
 
@@ -46,7 +45,7 @@ class Video:
     def __init__(self, url_or_search, requested_by):
         """Plays audio from (or searches for) a URL."""
         with ytdl.YoutubeDL(YTDL_config) as ydl:
-            video = self._get_info(url_or_search)
+            video = self._get_info(url_or_search, download=False)
             video_format = video["formats"][0]
             self.stream_url = video_format["url"]
             self.video_url = video["webpage_url"]
