@@ -2,11 +2,14 @@
 import os
 import discord
 from discord.ext import commands
-from pretty_help import PrettyHelp
+from pretty_help import DefaultMenu, PrettyHelp
+
 
 from settings import token, google_api_key, custom_search_engine
 
+menu = DefaultMenu('◀️', '▶️', '❌')
 bot = commands.Bot(command_prefix=".", help_command=PrettyHelp(
+    navigation=menu,
     active_time=120,
     color=0xa0cfe5))
 

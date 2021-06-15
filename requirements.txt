@@ -3,3 +3,4 @@ typing
 requests
 bs4
 discord-pretty-help
+youtube-dl
