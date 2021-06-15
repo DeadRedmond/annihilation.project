@@ -79,6 +79,9 @@ class Video:
 
 async def audio_playing(ctx):
     """Checks that audio is currently playing before continuing."""
+    if ctx.guild is False:
+        return
+        
     client = ctx.guild.voice_client
     if client and client.channel and client.source:
         return True
@@ -164,6 +167,7 @@ class Music(commands.Cog):
 
     @commands.command(brief="Играть музыку с указанного <url>.")
     @commands.guild_only()
+    
     async def play(self, ctx, *, url):
         client = ctx.guild.voice_client
         state = self.get_state(ctx.guild)  # get the guild's state
