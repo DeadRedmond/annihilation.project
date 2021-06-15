@@ -90,6 +90,8 @@ async def audio_playing(ctx):
 
 async def in_voice_channel(ctx):
     """Checks that the command sender is in the same voice channel as the bot."""
+    if ctx.guild is False:
+        return False
     voice = ctx.author.voice
     bot_voice = ctx.guild.voice_client
     if voice and bot_voice and voice.channel and bot_voice.channel and voice.channel == bot_voice.channel:
@@ -100,6 +102,8 @@ async def in_voice_channel(ctx):
 
 async def is_audio_requester(ctx):
     """Checks that the command sender is the song requester."""
+    if ctx.guild is False:
+        return False
     music = ctx.bot.get_cog("Music")
     state = music.get_state(ctx.guild)
     permissions = ctx.channel.permissions_for(ctx.author)
