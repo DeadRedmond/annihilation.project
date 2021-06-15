@@ -80,8 +80,8 @@ class Video:
 async def audio_playing(ctx):
     """Checks that audio is currently playing before continuing."""
     if ctx.guild is False:
-        return
-        
+        return False
+
     client = ctx.guild.voice_client
     if client and client.channel and client.source:
         return True
