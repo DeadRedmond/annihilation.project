@@ -79,7 +79,7 @@ class Video:
 
 async def audio_playing(ctx):
     """Checks that audio is currently playing before continuing."""
-    if ctx.guild is False:
+    if ctx.guild is None:
         return False
 
     client = ctx.guild.voice_client
@@ -90,7 +90,7 @@ async def audio_playing(ctx):
 
 async def in_voice_channel(ctx):
     """Checks that the command sender is in the same voice channel as the bot."""
-    if ctx.guild is False:
+    if ctx.guild is None:
         return False
     voice = ctx.author.voice
     bot_voice = ctx.guild.voice_client
@@ -102,7 +102,7 @@ async def in_voice_channel(ctx):
 
 async def is_audio_requester(ctx):
     """Checks that the command sender is the song requester."""
-    if ctx.guild is False:
+    if ctx.guild is None:
         return False
     music = ctx.bot.get_cog("Music")
     state = music.get_state(ctx.guild)
