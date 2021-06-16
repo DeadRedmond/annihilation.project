@@ -36,7 +36,10 @@ class GuildState:
         self.now_playing = None
 
     def is_requester(self, user):
-        return self.now_playing.requested_by == user
+        if self.now_playing.requested_by == None:
+            return False
+        else:
+            return self.now_playing.requested_by == user
 
 
 class Video:
