@@ -104,14 +104,15 @@ async def is_audio_requester(ctx):
     """Checks that the command sender is the song requester."""
     if ctx.guild is None:
         return False
-    music = ctx.bot.get_cog("Music")
-    state = music.get_state(ctx.guild)
-    permissions = ctx.channel.permissions_for(ctx.author)
-    if permissions.administrator or state.is_requester(ctx.author):
-        return True
     else:
-        raise commands.CommandError(
-            "Для этой команды необходимо быть заказчиком")
+        music = ctx.bot.get_cog("Music")
+        state = music.get_state(ctx.guild)
+        permissions = ctx.channel.permissions_for(ctx.author)
+        if permissions.administrator or state.is_requester(ctx.author):
+            return True
+        else:
+            raise commands.CommandError(
+                "Для этой команды необходимо быть заказчиком")
 
 
 class Music(commands.Cog):
