@@ -36,7 +36,7 @@ class GuildState:
         self.now_playing = None
 
     def is_requester(self, user):
-        if self.now_playing.requested_by == None:
+        if self.now_playing == None:
             return False
         else:
             return self.now_playing.requested_by == user
