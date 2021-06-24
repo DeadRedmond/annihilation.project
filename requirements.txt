@@ -1,5 +1,6 @@
 discord.py
 discord.py[voice]
+PyNaCl
 typing
 requests
 bs4
