@@ -173,7 +173,7 @@ class Music(commands.Cog):
             # enough members have voted to skip, so skip the song
             channel.guild.voice_client.stop()
 
-    @commands.command(brief="Играть музыку с указанного <url>.")
+    @commands.command(brief="Играть музыку с указанного <url> или попытаться найти на **youtube**.")
     @commands.guild_only()
     
     async def play(self, ctx, *, url):
@@ -221,7 +221,7 @@ class Music(commands.Cog):
     @commands.check(audio_playing)
     @commands.check(in_voice_channel)
     async def skip(self, ctx):
-        """Пропустить текущий трек"""
+        """Голосование за пропуск текущего трека"""
         state = self.get_state(ctx.guild)
         client = ctx.guild.voice_client
         if ctx.channel.permissions_for(ctx.author).administrator or state.is_requester(ctx.author):
@@ -258,7 +258,7 @@ class Music(commands.Cog):
     @commands.guild_only()
     @commands.check(audio_playing)
     async def queue(self, ctx):
-        """Выводит очередь."""
+        """Выводит очередь воспроизведения"""
         state = self.get_state(ctx.guild)
         await ctx.send(self._queue_text(state.playlist), delete_after=90)
         if ctx.message.channel.guild.me.guild_permissions.manage_messages:
@@ -270,7 +270,7 @@ class Music(commands.Cog):
     @commands.check(audio_playing)
     @commands.has_permissions(administrator=True)
     async def clearqueue(self, ctx):
-        """Очищает очередь воспроизведения."""
+        """Очищает очередь воспроизведения"""
         state = self.get_state(ctx.guild)
         state.playlist = []
         await ctx.send("Очередь воспроизведения очищена", delete_after=20)
