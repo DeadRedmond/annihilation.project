@@ -4,7 +4,7 @@ import aiohttp
 import discord
 from discord.ext import commands
 from random import randint
-from utils.http import nekoslifeapi, header
+from cogs.utils.http import nekoslifeapi, header
 
 class NSFW(commands.Cog):
     '''

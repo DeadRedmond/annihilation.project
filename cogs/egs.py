@@ -1,6 +1,6 @@
 #import
 from discord.ext import commands
-from utils.http import freegames
+from cogs.utils.http import freegames
 
 class EGS(commands.Cog):
 
